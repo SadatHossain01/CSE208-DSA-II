@@ -1,7 +1,9 @@
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <vector>
 
+#include "Kruskal.hpp"
 #include "Prim.hpp"
 using namespace std;
 
@@ -26,8 +28,13 @@ int main() {
     }
 
     double prim_weight = prim(adj, prim_ans, 0);
+    double kruskal_weight = kruskal(adj, kruskal_ans);
+
+    assert(abs(prim_weight - kruskal_weight) < EPS &&
+           prim_ans.size() == n - 1 && kruskal_ans.size() == n - 1);
 
     cout << "Cost of the minimum spanning tree: " << prim_weight << endl;
+
     cout << "List of the edges selected by Prim's: {";
     for (int i = 0; i < prim_ans.size(); i++) {
         cout << "(" << prim_ans[i].first << "," << prim_ans[i].second << ")";
@@ -36,4 +43,16 @@ int main() {
         else
             cout << "}" << endl;
     }
+
+    cout << "List of the edges selected by Kruskal's: {";
+    for (int i = 0; i < kruskal_ans.size(); i++) {
+        cout << "(" << kruskal_ans[i].first << "," << kruskal_ans[i].second
+             << ")";
+        if (i < kruskal_ans.size() - 1)
+            cout << ",";
+        else
+            cout << "}" << endl;
+    }
+
+    in.close();
 }
