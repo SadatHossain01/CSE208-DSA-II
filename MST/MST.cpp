@@ -9,6 +9,7 @@ using namespace std;
 
 const double EPS = 1e-9;
 vector<vector<pair<double, int>>> adj;
+vector<Edge> edges;
 vector<pair<int, int>> prim_ans, kruskal_ans;
 
 int main() {
@@ -18,6 +19,7 @@ int main() {
     int n, m;
     in >> n >> m;
     adj.resize(n);
+    edges.resize(m);
 
     for (int i = 0; i < m; i++) {
         int a, b;
@@ -25,10 +27,13 @@ int main() {
         in >> a >> b >> c;
         adj[a].push_back(make_pair(c, b));
         adj[b].push_back(make_pair(c, a));
+        edges[i].from = a;
+        edges[i].to = b;
+        edges[i].weight = c;
     }
 
     double prim_weight = prim(adj, prim_ans, 0);
-    double kruskal_weight = kruskal(adj, kruskal_ans);
+    double kruskal_weight = kruskal(edges, kruskal_ans, n);
 
     assert(abs(prim_weight - kruskal_weight) < EPS &&
            prim_ans.size() == n - 1 && kruskal_ans.size() == n - 1);

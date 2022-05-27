@@ -27,25 +27,11 @@ void union_sets(int a, int b) {
     if (a != b) parent[b] = a;
 }
 
-double kruskal(const vector<vector<pair<double, int>>>& adj,
-               vector<pair<int, int>>& kruskal_ans) {
-    int n = adj.size();
-
+double kruskal(vector<Edge>& edges, vector<pair<int, int>>& kruskal_ans,
+               int n) {
     parent.resize(n);
     for (int i = 0; i < n; i++) parent[i] = i;
 
-    vector<Edge> edges;
-    for (int i = 0; i < adj.size(); i++) {
-        for (int j = 0; j < adj[i].size(); j++) {
-            if (adj[i][j].second > i) {
-                Edge e;
-                e.from = i;
-                e.to = adj[i][j].second;
-                e.weight = adj[i][j].first;
-                edges.push_back(e);
-            }
-        }
-    }
     sort(edges.begin(), edges.end());
 
     double total_weight = 0;
