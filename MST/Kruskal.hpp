@@ -14,27 +14,30 @@ struct Edge {
 
 vector<int> parent;
 
-void make_set(int v) { parent[v] = v; }
-
-int find_set(int v) {
+int find_set(int v) {  // O(logV) per call on average
     if (v == parent[v]) return v;
-    return find_set(parent[v]);
+    return parent[v] = find_set(parent[v]);
 }
 
-void union_sets(int a, int b) {
+void union_sets(int a, int b) {  // O(logV) on average
     a = find_set(a);
     b = find_set(b);
     if (a != b) parent[b] = a;
 }
 
+// kruskal_ans is the vector where the resulting MST
+// from this algorithm will be stored
 double kruskal(vector<Edge>& edges, vector<pair<int, int>>& kruskal_ans,
                int n) {
-    parent.resize(n);
-    for (int i = 0; i < n; i++) parent[i] = i;
+    // O(V)
+    parent.resize(n + 2);
+    for (int i = 0; i <= n; i++) parent[i] = i;
 
+    // O(E logE) or O(E logV)
     sort(edges.begin(), edges.end());
 
     double total_weight = 0;
+    // O(E) DSU operations, per operation O(logV) on average
     for (int i = 0; i < edges.size(); i++) {
         int u = edges[i].from;
         int v = edges[i].to;

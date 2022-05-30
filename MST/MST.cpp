@@ -8,8 +8,9 @@
 using namespace std;
 
 const double EPS = 1e-9;
-vector<vector<pair<double, int>>> adj;
-vector<Edge> edges;
+// Edge struct contains from, Edge2 does not
+vector<vector<Edge2>> adj;  // for Prim
+vector<Edge> edges;         // for Kruskal
 vector<pair<int, int>> prim_ans, kruskal_ans;
 
 int main() {
@@ -18,15 +19,19 @@ int main() {
 
     int n, m;
     in >> n >> m;
-    adj.resize(n);
+    adj.resize(n + 1);
     edges.resize(m);
 
     for (int i = 0; i < m; i++) {
         int a, b;
         double c;
         in >> a >> b >> c;
-        adj[a].push_back(make_pair(c, b));
-        adj[b].push_back(make_pair(c, a));
+        Edge2 e;
+        e.to = b;
+        e.weight = c;
+        adj[a].push_back(e);
+        e.to = a;
+        adj[b].push_back(e);
         edges[i].from = a;
         edges[i].to = b;
         edges[i].weight = c;
