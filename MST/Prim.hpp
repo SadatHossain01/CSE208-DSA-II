@@ -15,13 +15,11 @@ struct Edge2 {
     }
 };
 
-// prim_ans is the vector where the resulting MST
-// from this algorithm will be stored
-double prim(vector<vector<Edge2>>& adj, vector<pair<int, int>>& prim_ans,
-            int source) {
-    int n = adj.size();
-    vector<bool> taken(n + 1, false);  // if a vertex is included in the MST
-    vector<double> key(n + 1, INF);
+// prim_ans is the vector to store the resulting MST
+// taken records if a node has been included in the MST
+double primHelp(vector<vector<Edge2>>& adj, vector<bool>& taken,
+                vector<double>& key, vector<pair<int, int>>& prim_ans,
+                int source) {
     priority_queue<pair<Edge2, int>, vector<pair<Edge2, int>>,
                    greater<pair<Edge2, int>>>
         pq;
@@ -58,11 +56,26 @@ double prim(vector<vector<Edge2>>& adj, vector<pair<int, int>>& prim_ans,
                 temp.weight = weight;
                 pq.push(make_pair(temp, u));
                 // there might be cases where multiple edges with same ending
-                // point might be in the queue. But checking if taken[u]
-                // is true, discards those additional pushes
+                // point might be in the queue. But checking taken[u]'s truth
+                // discards those additional pushes
             }
         }
     }
 
     return total_weight;
+}
+
+// for a disconnected graph, there will be multiple MSTs resulting in
+// Minimum Spanning Forest. We want to go through every node, and if a node
+// is not already part of an MST, run Prim's from it
+double prim(vector<vector<Edge2>>& adj, vector<pair<int, int>>& prim_ans,
+            int n) {
+    // 0-based
+    vector<bool> taken(n + 1, false);  // if a vertex is included in the MST
+    vector<double> key(n + 1, INF);
+    double ans = 0;
+    for (int i = 0; i < n; i++) {
+        if (!taken[i]) ans += primHelp(adj, taken, key, prim_ans, i);
+    }
+    return ans;
 }
