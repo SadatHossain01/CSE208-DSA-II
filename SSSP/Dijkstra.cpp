@@ -5,11 +5,10 @@
 using namespace std;
 
 typedef long long ll;
-struct E {  // calling this E
-    // for avoiding same name with the (from, to, weight) form of Edge
+struct Edge {
     int to;
     ll weight;
-    bool operator>(const E& other) const {
+    bool operator>(const Edge& other) const {
         if (weight != other.weight) return weight > other.weight;
         return to > other.to;
     }
@@ -17,7 +16,7 @@ struct E {  // calling this E
 
 const ll INF = 2e15;
 int n, m, s, d;
-vector<vector<E>> adj;
+vector<vector<Edge>> adj;
 vector<ll> dist;
 vector<int> parent;
 vector<bool> visited;
@@ -25,11 +24,10 @@ vector<bool> visited;
 void dijkstra(int source) {
     parent[source] = -1;
     dist[source] = 0;
-    priority_queue<E, vector<E>, greater<E>> pq;
+    priority_queue<Edge, vector<Edge>, greater<Edge>> pq;
     pq.push({source, 0});
     while (!pq.empty()) {
         int from = pq.top().to;
-        ll weight = pq.top().weight;
         pq.pop();
         if (visited[from]) continue;
         visited[from] = true;

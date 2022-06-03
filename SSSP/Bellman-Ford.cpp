@@ -6,13 +6,17 @@ using namespace std;
 
 typedef long long ll;
 struct Edge {
-    int from, to;
+    int to;
     ll weight;
+    bool operator>(const Edge& other) const {
+        if (weight != other.weight) return weight > other.weight;
+        return to > other.to;
+    }
 };
 
 const ll INF = 2e15;
 int n, m, s, d;
-vector<Edge> edges;
+vector<vector<Edge>> adj;
 vector<ll> dist;
 vector<int> parent;
 
@@ -21,16 +25,17 @@ bool bellman_ford(int source) {
     parent[source] = -1;
     for (int i = 1; i <= n; i++) {
         bool changed = false;
-        for (int j = 0; j < m; j++) {
-            int from = edges[j].from;
-            int to = edges[j].to;
-            ll weight = edges[j].weight;
-            if (dist[from] < INF) {
-                if (dist[to] > dist[from] + weight) {
-                    if (i == n) return false;
-                    dist[to] = dist[from] + weight;
-                    parent[to] = from;
-                    changed = true;
+        for (int from = 0; from < n; from++) {
+            for (auto& edge : adj[from]) {
+                int to = edge.to;
+                ll weight = edge.weight;
+                if (dist[from] < INF) {
+                    if (dist[to] > dist[from] + weight) {
+                        if (i == n) return false;
+                        dist[to] = dist[from] + weight;
+                        parent[to] = from;
+                        changed = true;
+                    }
                 }
             }
         }
@@ -41,13 +46,13 @@ bool bellman_ford(int source) {
 
 int main() {
     cin >> n >> m;
-    edges.resize(m);
+    adj.resize(n + 1);
     dist.assign(n + 1, INF);
     parent.resize(n + 1);
     for (int i = 0; i < m; i++) {
         int a, b, c;
         cin >> a >> b >> c;
-        edges[i] = {a, b, c};
+        adj[a].push_back({b, c});
     }
     cin >> s >> d;
     bool ret = bellman_ford(s);
