@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <queue>
 #include <stack>
@@ -45,16 +46,18 @@ bool bellman_ford(int source) {
 }
 
 int main() {
-    cin >> n >> m;
+    ifstream in;
+    in.open("bellman_in.txt");
+    in >> n >> m;
     adj.resize(n + 1);
     dist.assign(n + 1, INF);
     parent.resize(n + 1);
     for (int i = 0; i < m; i++) {
         int a, b, c;
-        cin >> a >> b >> c;
+        in >> a >> b >> c;
         adj[a].push_back({b, c});
     }
-    cin >> s >> d;
+    in >> s >> d;
     bool ret = bellman_ford(s);
     if (!ret) {
         cout << "The graph contains a negative cycle\n";
@@ -73,4 +76,5 @@ int main() {
         if (!st.empty()) cout << "-> ";
     }
     cout << "\n";
+    in.close();
 }

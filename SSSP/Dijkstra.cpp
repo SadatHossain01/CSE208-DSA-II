@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <queue>
 #include <stack>
@@ -42,17 +43,19 @@ void dijkstra(int source) {
 }
 
 int main() {
-    cin >> n >> m;
+    ifstream in;
+    in.open("d_in.txt");
+    in >> n >> m;
     adj.resize(n + 1);
     dist.assign(n + 1, INF);
     parent.resize(n + 1);
     visited.assign(n + 1, false);
     for (int i = 0; i < m; i++) {
         int a, b, c;
-        cin >> a >> b >> c;
+        in >> a >> b >> c;
         adj[a].push_back({b, c});
     }
-    cin >> s >> d;
+    in >> s >> d;
     dijkstra(s);
     cout << "Shortest path cost: " << dist[d] << "\n";
     stack<int> st;
@@ -66,4 +69,5 @@ int main() {
         if (!st.empty()) cout << "-> ";
     }
     cout << "\n";
+    in.close();
 }
