@@ -57,17 +57,21 @@ int main() {
     }
     in >> s >> d;
     dijkstra(s);
-    cout << "Shortest path cost: " << dist[d] << "\n";
-    stack<int> st;
-    while (d != -1) {
-        st.push(d);
-        d = parent[d];
+    if (d >= n || dist[d] == INF) {
+        cout << "Destination unreachable from source\n";
+    } else {
+        cout << "Shortest path cost: " << dist[d] << "\n";
+        stack<int> st;
+        while (d != -1) {
+            st.push(d);
+            d = parent[d];
+        }
+        while (!st.empty()) {
+            cout << st.top() << " ";
+            st.pop();
+            if (!st.empty()) cout << "-> ";
+        }
+        cout << "\n";
     }
-    while (!st.empty()) {
-        cout << st.top() << " ";
-        st.pop();
-        if (!st.empty()) cout << "-> ";
-    }
-    cout << "\n";
     in.close();
 }
