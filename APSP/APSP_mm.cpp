@@ -1,3 +1,4 @@
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -5,28 +6,17 @@ using namespace std;
 
 const int INF = 2e8;
 int n, m;
-vector<vector<int>> adj_mat, dist;
+vector<vector<int>> adj_mat, distmm;
 
-void floyd_warshall() {
-    dist = adj_mat;
-
-    for (int j = 1; j <= n; j++) {
-        for (int i = 1; i <= n; i++) {
-            for (int k = 1; k <= n; k++) {
-                dist[i][k] = min(dist[i][k], dist[i][j] + dist[j][k]);
-            }
-        }
-    }
-}
-
-vector<vector<int>> extend_shortest_path(vector<vector<int>>& d) {
+vector<vector<int>> extend_shortest_path(vector<vector<int>>& d,
+                                         vector<vector<int>>& w) {
     vector<vector<int>> new_d(n + 2, vector<int>(n + 2));
 
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
             new_d[i][j] = INF;
             for (int k = 1; k <= n; k++) {
-                new_d[i][j] = min(new_d[i][j], d[i][k] + adj_mat[k][j]);
+                new_d[i][j] = min(new_d[i][j], d[i][k] + w[k][j]);
             }
         }
     }
@@ -35,11 +25,19 @@ vector<vector<int>> extend_shortest_path(vector<vector<int>>& d) {
 }
 
 void mat_mul_shortest_path() {
-    dist = adj_mat;
+    distmm = adj_mat;
 
-    for (int i = 2; i < n; i++) {
-        vector<vector<int>> d = extend_shortest_path(dist);
-        dist = d;
+    for (int i = 2; i < n; i++) distmm = extend_shortest_path(distmm, adj_mat);
+}
+
+void mat_mul_shortest_path_faster() {
+    distmm = adj_mat;
+
+    int b = n - 1;
+    int m = 1;
+    while (m < b) {
+        distmm = extend_shortest_path(distmm, distmm);
+        m *= 2;
     }
 }
 
@@ -49,7 +47,7 @@ int main() {
 
     in >> n >> m;
     adj_mat.assign(n + 2, vector<int>(n + 2, INF));
-    dist.assign(n + 2, vector<int>(n + 2, INF));
+    distmm.assign(n + 2, vector<int>(n + 2, INF));
 
     for (int i = 1; i <= n; i++) adj_mat[i][i] = 0;
     for (int i = 0; i < m; i++) {
@@ -58,16 +56,16 @@ int main() {
         adj_mat[u][v] = w;
     }
 
-    floyd_warshall();
     // mat_mul_shortest_path();
+    mat_mul_shortest_path_faster();
 
     cout << "Shortest distance matrix\n";
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
-            if (dist[i][j] == INF)
+            if (distmm[i][j] == INF)
                 cout << "INF ";
             else
-                cout << dist[i][j] << " ";
+                cout << distmm[i][j] << " ";
         }
         cout << "\n";
     }
