@@ -32,7 +32,7 @@ int main() {
     for (int i = 0; i < m; i++) {
         int u, v, w;
         in >> u >> v >> w;
-        adj_mat[u][v] = w;
+        adj_mat[u][v] = min(adj_mat[u][v], w);
     }
 
     floyd_warshall();
