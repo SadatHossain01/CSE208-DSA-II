@@ -1,0 +1,407 @@
+teams1:
+
+teams10:
+Houston is eliminated.
+They can win at most 31 + 0 = 31 games.
+Indiana has won a total of 32 games.
+They play each other 0 times.
+So on average, each of the teams wins 32/1 = 32 games.
+
+teams12-allgames:
+
+teams12:
+Japan is eliminated.
+They can win at most 2 + 4 = 6 games.
+Poland, Russia, Brazil and Iran have won a total of 21 games.
+They play each other 4 times.
+So on average, each of the teams wins 25/4 = 6.25 games.
+
+Serbia is eliminated.
+They can win at most 1 + 5 = 6 games.
+Poland, Russia, Brazil and Iran have won a total of 21 games.
+They play each other 4 times.
+So on average, each of the teams wins 25/4 = 6.25 games.
+
+Egypt is eliminated.
+They can win at most 1 + 4 = 5 games.
+Poland has won a total of 6 games.
+They play each other 0 times.
+So on average, each of the teams wins 6/1 = 6 games.
+
+China is eliminated.
+They can win at most 0 + 4 = 4 games.
+Poland has won a total of 6 games.
+They play each other 0 times.
+So on average, each of the teams wins 6/1 = 6 games.
+
+teams24:
+Team4 is eliminated.
+They can win at most 66 + 14 = 80 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team5 is eliminated.
+They can win at most 71 + 11 = 82 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team7 is eliminated.
+They can win at most 68 + 13 = 81 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team9 is eliminated.
+They can win at most 65 + 16 = 81 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team11 is eliminated.
+They can win at most 74 + 8 = 82 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team12 is eliminated.
+They can win at most 70 + 11 = 81 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team13 is eliminated.
+They can win at most 69 + 15 = 84 games.
+Team14, Team15, Team17, Team20 and Team22 have won a total of 412 games.
+They play each other 15 times.
+So on average, each of the teams wins 427/5 = 85.4 games.
+
+Team16 is eliminated.
+They can win at most 55 + 20 = 75 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team19 is eliminated.
+They can win at most 68 + 10 = 78 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+Team23 is eliminated.
+They can win at most 62 + 21 = 83 games.
+Team22 has won a total of 84 games.
+They play each other 0 times.
+So on average, each of the teams wins 84/1 = 84 games.
+
+teams29:
+Detroit is eliminated.
+They can win at most 103 + 25 = 128 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas, Denver and Philadelphia have won a total of 843 games.
+They play each other 113 times.
+So on average, each of the teams wins 956/7 = 136.571 games.
+
+Golden_State is eliminated.
+They can win at most 98 + 33 = 131 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+Houston is eliminated.
+They can win at most 114 + 15 = 129 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas, Denver and Philadelphia have won a total of 843 games.
+They play each other 113 times.
+So on average, each of the teams wins 956/7 = 136.571 games.
+
+Indiana is eliminated.
+They can win at most 93 + 23 = 116 games.
+Chicago has won a total of 125 games.
+They play each other 0 times.
+So on average, each of the teams wins 125/1 = 125 games.
+
+LA_Clippers is eliminated.
+They can win at most 92 + 26 = 118 games.
+Chicago has won a total of 125 games.
+They play each other 0 times.
+So on average, each of the teams wins 125/1 = 125 games.
+
+LA_Lakers is eliminated.
+They can win at most 106 + 30 = 136 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+Memphis is eliminated.
+They can win at most 95 + 35 = 130 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+New_Jersey is eliminated.
+They can win at most 117 + 20 = 137 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+New_Orleans is eliminated.
+They can win at most 119 + 15 = 134 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+New_York is eliminated.
+They can win at most 113 + 23 = 136 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+Orlando is eliminated.
+They can win at most 100 + 19 = 119 games.
+Chicago has won a total of 125 games.
+They play each other 0 times.
+So on average, each of the teams wins 125/1 = 125 games.
+
+Phoenix is eliminated.
+They can win at most 103 + 26 = 129 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas, Denver and Philadelphia have won a total of 843 games.
+They play each other 113 times.
+So on average, each of the teams wins 956/7 = 136.571 games.
+
+Portand is eliminated.
+They can win at most 104 + 21 = 125 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas, Denver, Philadelphia and Sacramento have won a total of 967 games.
+They play each other 117 times.
+So on average, each of the teams wins 1084/8 = 135.5 games.
+
+San_Antonio is eliminated.
+They can win at most 102 + 26 = 128 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas, Denver and Philadelphia have won a total of 843 games.
+They play each other 113 times.
+So on average, each of the teams wins 956/7 = 136.571 games.
+
+Toronto is eliminated.
+They can win at most 113 + 16 = 129 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas, Denver and Philadelphia have won a total of 843 games.
+They play each other 113 times.
+So on average, each of the teams wins 956/7 = 136.571 games.
+
+Utah is eliminated.
+They can win at most 107 + 29 = 136 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+Washington is eliminated.
+They can win at most 113 + 24 = 137 games.
+Atlanta, Boston, Chicago, Cleveland, Dallas and Denver have won a total of 721 games.  
+They play each other 105 times.
+So on average, each of the teams wins 826/6 = 137.667 games.
+
+teams30:
+Team0 is eliminated.
+They can win at most 70 + 12 = 82 games.
+Team16 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team7 is eliminated.
+They can win at most 62 + 18 = 80 games.
+Team16 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team12 is eliminated.
+They can win at most 60 + 20 = 80 games.
+Team16 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team18 is eliminated.
+They can win at most 68 + 15 = 83 games.
+Team10, Team16, Team19 and Team21 have won a total of 327 games.
+They play each other 6 times.
+So on average, each of the teams wins 333/4 = 83.25 games.      
+
+Team27 is eliminated.
+They can win at most 68 + 15 = 83 games.
+Team10, Team16, Team19 and Team21 have won a total of 327 games.
+They play each other 6 times.
+So on average, each of the teams wins 333/4 = 83.25 games.
+
+teams32:
+Team2 is eliminated.
+They can win at most 62 + 13 = 75 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team3 is eliminated.
+They can win at most 68 + 11 = 79 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team12 is eliminated.
+They can win at most 67 + 13 = 80 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team13 is eliminated.
+They can win at most 67 + 13 = 80 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team14 is eliminated.
+They can win at most 68 + 12 = 80 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team17 is eliminated.
+They can win at most 63 + 18 = 81 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team25 is eliminated.
+They can win at most 67 + 16 = 83 games.
+Team0, Team6, Team8, Team11 and Team26 have won a total of 407 games.
+They play each other 9 times.
+So on average, each of the teams wins 416/5 = 83.2 games.
+
+Team28 is eliminated.
+They can win at most 68 + 11 = 79 games.
+Team6 has won a total of 83 games.
+They play each other 0 times.
+So on average, each of the teams wins 83/1 = 83 games.
+
+Team29 is eliminated.
+They can win at most 72 + 11 = 83 games.
+Team0, Team6, Team8, Team11 and Team26 have won a total of 407 games.
+They play each other 9 times.
+So on average, each of the teams wins 416/5 = 83.2 games.
+
+teams60:
+Team5 is eliminated.
+They can win at most 18 + 15 = 33 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.      
+
+Team6 is eliminated.
+They can win at most 32 + 6 = 38 games.
+Team10, Team20 and Team22 have won a total of 112 games.    
+They play each other 3 times.
+So on average, each of the teams wins 115/3 = 38.3333 games.
+
+Team7 is eliminated.
+They can win at most 23 + 13 = 36 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team9 is eliminated.
+They can win at most 26 + 11 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team14 is eliminated.
+They can win at most 25 + 12 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team19 is eliminated.
+They can win at most 27 + 9 = 36 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team21 is eliminated.
+They can win at most 28 + 10 = 38 games.      
+Team10, Team20 and Team22 have won a total of 112 games.
+They play each other 3 times.
+So on average, each of the teams wins 115/3 = 38.3333 games.
+
+Team26 is eliminated.
+They can win at most 26 + 11 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team27 is eliminated.
+They can win at most 24 + 12 = 36 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team30 is eliminated.
+They can win at most 29 + 9 = 38 games.
+Team10, Team20 and Team22 have won a total of 112 games.
+They play each other 3 times.
+So on average, each of the teams wins 115/3 = 38.3333 games.
+
+Team36 is eliminated.
+They can win at most 28 + 9 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team39 is eliminated.
+They can win at most 26 + 12 = 38 games.
+Team10, Team20 and Team22 have won a total of 112 games.
+They play each other 3 times.
+So on average, each of the teams wins 115/3 = 38.3333 games.
+
+Team40 is eliminated.
+They can win at most 26 + 11 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team46 is eliminated.
+They can win at most 24 + 13 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team51 is eliminated.
+They can win at most 29 + 9 = 38 games.
+Team10, Team20 and Team22 have won a total of 112 games.
+They play each other 3 times.
+So on average, each of the teams wins 115/3 = 38.3333 games.
+
+Team53 is eliminated.
+They can win at most 25 + 10 = 35 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team56 is eliminated.
+They can win at most 28 + 9 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+Team57 is eliminated.
+They can win at most 27 + 10 = 37 games.
+Team10 has won a total of 38 games.
+They play each other 0 times.
+So on average, each of the teams wins 38/1 = 38 games.
+
+
+
+
+
+
+
+
+
+
+
+
+
