@@ -1,0 +1,384 @@
+Case 1 : --------------------------------
+
+Kathalbagan is Eliminated.
+They can win at most 40 games.
+Chandranath have won a total of 41 games.
+They play each other 0 times.
+So on average, each team wins 41/1 = 41 games.
+
+Hathazari is Eliminated.
+They can win at most 38 games.
+Chandranath, Borpeta have won a total of 81 games.
+They play each other 2 times.
+So on average, each team wins 83/2 = 41.5 games.
+
+Guwahati is Eliminated.
+They can win at most 37 games.
+Chandranath, Borpeta, Kahramanmaras have won a total of 119 games.
+They play each other 3 times.
+So on average, each team wins 122/3 = 40.6667 games.
+
+Coochbihar is Eliminated.
+They can win at most 37 games.
+Chandranath, Borpeta, Kahramanmaras have won a total of 119 games.
+They play each other 3 times.
+So on average, each team wins 122/3 = 40.6667 games.
+
+Case 2 : --------------------------------
+
+Kahramanmaras is Eliminated.
+They can win at most 42 games.
+Beilefeld, Kathalbagan, Guwahati, Coochbihar have won a total of 195 games.
+They play each other 5 times.
+So on average, each team wins 200/4 = 50 games.
+
+Pamukkale is Eliminated.
+They can win at most 50 games.
+Guwahati have won a total of 52 games.
+They play each other 0 times.
+So on average, each team wins 52/1 = 52 games.
+
+Chandranath is Eliminated.
+They can win at most 49 games.
+Guwahati, Coochbihar have won a total of 102 games.
+They play each other 2 times.
+So on average, each team wins 104/2 = 52 games.
+
+Hathazari is Eliminated.
+They can win at most 44 games.
+Beilefeld, Guwahati, Coochbihar have won a total of 151 games.
+They play each other 3 times.
+So on average, each team wins 154/3 = 51.3333 games.
+
+Borpeta is Eliminated.
+They can win at most 48 games.
+Beilefeld, Guwahati, Coochbihar have won a total of 151 games.
+They play each other 3 times.
+So on average, each team wins 154/3 = 51.3333 games.
+
+Purulia is Eliminated.
+They can win at most 41 games.
+Beilefeld, Kathalbagan, Guwahati, Coochbihar have won a total of 195 games.
+They play each other 5 times.
+So on average, each team wins 200/4 = 50 games.
+
+Case 3 : --------------------------------
+
+Guwahati is Eliminated.
+They can win at most 45 games.
+Chandranath, Hathazari have won a total of 92 games.
+They play each other 0 times.
+So on average, each team wins 92/2 = 46 games.
+
+Borpeta is Eliminated.
+They can win at most 40 games.
+Chandranath, Hathazari, Kahramanmaras, Pamukkale, Beilefeld have won a total of 221 games.
+They play each other 8 times.
+So on average, each team wins 229/5 = 45.8 games.
+
+Purulia is Eliminated.
+They can win at most 42 games.
+Chandranath, Hathazari, Kahramanmaras, Pamukkale have won a total of 180 games.
+They play each other 5 times.
+So on average, each team wins 185/4 = 46.25 games.
+
+Coochbihar is Eliminated.
+They can win at most 45 games.
+Chandranath, Hathazari have won a total of 92 games.
+They play each other 0 times.
+So on average, each team wins 92/2 = 46 games.
+
+Case 4 : --------------------------------
+
+Pamukkale is Eliminated.
+They can win at most 47 games.
+Chandranath have won a total of 48 games.
+They play each other 0 times.
+So on average, each team wins 48/1 = 48 games.
+
+Beilefeld is Eliminated.
+They can win at most 47 games.
+Chandranath have won a total of 48 games.
+They play each other 0 times.
+So on average, each team wins 48/1 = 48 games.
+
+Kathalbagan is Eliminated.
+They can win at most 43 games.
+Coochbihar, Kahramanmaras, Chandranath have won a total of 140 games.
+They play each other 4 times.
+So on average, each team wins 144/3 = 48 games.
+
+Hathazari is Eliminated.
+They can win at most 46 games.
+Coochbihar, Chandranath have won a total of 95 games.
+They play each other 2 times.
+So on average, each team wins 97/2 = 48.5 games.
+
+Guwahati is Eliminated.
+They can win at most 46 games.
+Coochbihar, Chandranath have won a total of 95 games.
+They play each other 2 times.
+So on average, each team wins 97/2 = 48.5 games.
+
+Case 5 : --------------------------------
+
+Kahramanmaras is Eliminated.
+They can win at most 38 games.
+Chandranath, Hathazari, Guwahati have won a total of 128 games.
+They play each other 6 times.
+So on average, each team wins 134/3 = 44.6667 games.
+
+Pamukkale is Eliminated.
+They can win at most 40 games.
+Chandranath, Hathazari, Guwahati have won a total of 128 games.
+They play each other 6 times.
+So on average, each team wins 134/3 = 44.6667 games.
+
+Beilefeld is Eliminated.
+They can win at most 41 games.
+Chandranath, Hathazari have won a total of 87 games.
+They play each other 2 times.
+So on average, each team wins 89/2 = 44.5 games.
+
+Kathalbagan is Eliminated.
+They can win at most 39 games.
+Chandranath, Hathazari, Guwahati have won a total of 128 games.
+They play each other 6 times.
+So on average, each team wins 134/3 = 44.6667 games.
+
+Borpeta is Eliminated.
+They can win at most 41 games.
+Chandranath, Hathazari have won a total of 87 games.
+They play each other 2 times.
+So on average, each team wins 89/2 = 44.5 games.
+
+Case 6 : --------------------------------
+
+Coochbihar is Eliminated.
+They can win at most 43 games.
+Pamukkale, Beilefeld, Chandranath, Hathazari, Guwahati have won a total of 206 games.
+They play each other 11 times.
+So on average, each team wins 217/5 = 43.4 games.
+
+Case 7 : --------------------------------
+
+Beilefeld is Eliminated.
+They can win at most 53 games.
+Hathazari, Guwahati, Borpeta, Purulia have won a total of 228 games.
+They play each other 6 times.
+So on average, each team wins 234/4 = 58.5 games.
+
+Coochbihar is Eliminated.
+They can win at most 58 games.
+Guwahati, Borpeta have won a total of 118 games.
+They play each other 0 times.
+So on average, each team wins 118/2 = 59 games.
+
+Kahramanmaras is Eliminated.
+They can win at most 55 games.
+Guwahati, Borpeta, Purulia have won a total of 174 games.
+They play each other 3 times.
+So on average, each team wins 177/3 = 59 games.
+
+Case 8 : --------------------------------
+
+Beilefeld is Eliminated.
+They can win at most 35 games.
+Borpeta have won a total of 36 games.
+They play each other 0 times.
+So on average, each team wins 36/1 = 36 games.
+
+Hathazari is Eliminated.
+They can win at most 34 games.
+Borpeta have won a total of 36 games.
+They play each other 0 times.
+So on average, each team wins 36/1 = 36 games.
+
+Case 9 : --------------------------------
+
+Beilefeld is Eliminated.
+They can win at most 47 games.
+Chandranath, Guwahati, Purulia have won a total of 151 games.
+They play each other 5 times.
+So on average, each team wins 156/3 = 52 games.
+
+Borpeta is Eliminated.
+They can win at most 51 games.
+Chandranath, Guwahati, Purulia have won a total of 151 games.
+They play each other 5 times.
+So on average, each team wins 156/3 = 52 games.
+
+Case 10 : --------------------------------
+
+Pamukkale is Eliminated.
+They can win at most 60 games.
+Purulia, Coochbihar have won a total of 123 games.
+They play each other 0 times.
+So on average, each team wins 123/2 = 61.5 games.
+
+Beilefeld is Eliminated.
+They can win at most 60 games.
+Purulia, Coochbihar have won a total of 123 games.
+They play each other 0 times.
+So on average, each team wins 123/2 = 61.5 games.
+
+Hathazari is Eliminated.
+They can win at most 57 games.
+Purulia, Coochbihar, Kahramanmaras have won a total of 181 games.
+They play each other 4 times.
+So on average, each team wins 185/3 = 61.6667 games.
+
+Borpeta is Eliminated.
+They can win at most 59 games.
+Purulia, Coochbihar have won a total of 123 games.
+They play each other 0 times.
+So on average, each team wins 123/2 = 61.5 games.
+
+Case 11 : --------------------------------
+
+Beilefeld is Eliminated.
+They can win at most 51 games.
+Hathazari, Guwahati, Coochbihar have won a total of 161 games.
+They play each other 4 times.
+So on average, each team wins 165/3 = 55 games.
+
+Chandranath is Eliminated.
+They can win at most 50 games.
+Hathazari, Guwahati, Coochbihar have won a total of 161 games.
+They play each other 4 times.
+So on average, each team wins 165/3 = 55 games.
+
+Borpeta is Eliminated.
+They can win at most 52 games.
+Hathazari, Guwahati have won a total of 109 games.
+They play each other 1 times.
+So on average, each team wins 110/2 = 55 games.
+
+Purulia is Eliminated.
+They can win at most 54 games.
+Guwahati have won a total of 55 games.
+They play each other 0 times.
+So on average, each team wins 55/1 = 55 games.
+
+Case 12 : --------------------------------
+
+Pamukkale is Eliminated.
+They can win at most 40 games.
+Kahramanmaras, Beilefeld have won a total of 84 games.
+They play each other 1 times.
+So on average, each team wins 85/2 = 42.5 games.
+
+Kathalbagan is Eliminated.
+They can win at most 40 games.
+Kahramanmaras, Beilefeld have won a total of 84 games.
+They play each other 1 times.
+So on average, each team wins 85/2 = 42.5 games.
+
+Hathazari is Eliminated.
+They can win at most 41 games.
+Kahramanmaras, Beilefeld have won a total of 84 games.
+They play each other 1 times.
+So on average, each team wins 85/2 = 42.5 games.
+
+Borpeta is Eliminated.
+They can win at most 37 games.
+Kahramanmaras, Beilefeld have won a total of 84 games.
+They play each other 1 times.
+So on average, each team wins 85/2 = 42.5 games.
+
+Case 13 : --------------------------------
+
+Guwahati is Eliminated.
+They can win at most 37 games.
+Chandranath, Hathazari, Purulia, Coochbihar, Pamukkale, Beilefeld have won a total of 249 games.
+They play each other 13 times.
+So on average, each team wins 262/6 = 43.6667 games.
+
+Borpeta is Eliminated.
+They can win at most 42 games.
+Chandranath, Hathazari, Pamukkale have won a total of 134 games.
+They play each other 4 times.
+So on average, each team wins 138/3 = 46 games.
+
+Purulia is Eliminated.
+They can win at most 41 games.
+Chandranath, Hathazari, Pamukkale have won a total of 134 games.
+They play each other 4 times.
+So on average, each team wins 138/3 = 46 games.
+
+Coochbihar is Eliminated.
+They can win at most 43 games.
+Chandranath, Hathazari, Pamukkale have won a total of 134 games.
+They play each other 4 times.
+So on average, each team wins 138/3 = 46 games.
+
+Kahramanmaras is Eliminated.
+They can win at most 41 games.
+Chandranath, Hathazari, Pamukkale have won a total of 134 games.
+They play each other 4 times.
+So on average, each team wins 138/3 = 46 games.
+
+Beilefeld is Eliminated.
+They can win at most 45 games.
+Chandranath, Hathazari, Pamukkale have won a total of 134 games.
+They play each other 4 times.
+So on average, each team wins 138/3 = 46 games.
+
+Case 14 : --------------------------------
+
+Pamukkale is Eliminated.
+They can win at most 37 games.
+Hathazari, Borpeta have won a total of 84 games.
+They play each other 0 times.
+So on average, each team wins 84/2 = 42 games.
+
+Beilefeld is Eliminated.
+They can win at most 38 games.
+Hathazari, Borpeta have won a total of 84 games.
+They play each other 0 times.
+So on average, each team wins 84/2 = 42 games.
+
+Kathalbagan is Eliminated.
+They can win at most 36 games.
+Hathazari, Borpeta have won a total of 84 games.
+They play each other 0 times.
+So on average, each team wins 84/2 = 42 games.
+
+Chandranath is Eliminated.
+They can win at most 37 games.
+Hathazari, Borpeta have won a total of 84 games.
+They play each other 0 times.
+So on average, each team wins 84/2 = 42 games.
+
+Guwahati is Eliminated.
+They can win at most 42 games.
+Hathazari have won a total of 43 games.
+They play each other 0 times.
+So on average, each team wins 43/1 = 43 games.
+
+Case 15 : --------------------------------
+
+Pamukkale is Eliminated.
+They can win at most 46 games.
+Hathazari have won a total of 47 games.
+They play each other 0 times.
+So on average, each team wins 47/1 = 47 games.
+
+Kathalbagan is Eliminated.
+They can win at most 40 games.
+Kahramanmaras, Beilefeld, Hathazari, Borpeta have won a total of 176 games.
+They play each other 9 times.
+So on average, each team wins 185/4 = 46.25 games.
+
+Chandranath is Eliminated.
+They can win at most 39 games.
+Kahramanmaras, Beilefeld, Hathazari, Guwahati, Borpeta have won a total of 216 games.
+They play each other 15 times.
+So on average, each team wins 231/5 = 46.2 games.
+
+Purulia is Eliminated.
+They can win at most 42 games.
+Beilefeld, Hathazari, Borpeta have won a total of 135 games.
+They play each other 4 times.
+So on average, each team wins 139/3 = 46.3333 games.
+

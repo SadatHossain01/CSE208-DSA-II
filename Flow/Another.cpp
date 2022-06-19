@@ -119,7 +119,7 @@ void setCapacity(int x) {
 }
 
 int bfs(vector<int>& parent, int source, int sink) {
-    parent.assign(numberOfNodes + 2, -1);
+    fill(parent.begin(), parent.end(), -1);
 
     parent[source] = -2;
     queue<pair<int, int>> q;
@@ -184,6 +184,7 @@ void reportOnATeam(int y) {
 
     // normal checking not enough
     else {
+        fill(visited.begin(), visited.end(), false);
         dfs(s.id);
         for (int j = 1; j <= numberOfTeams; j++)
             if (visited[Teams[j].nodeID]) toppers.push_back(j);
@@ -215,7 +216,9 @@ void reportOnATeam(int y) {
 
 int main() {
     freopen("in.txt", "r", stdin);
+
     cin >> numberOfTeams;
+
     Teams.resize(numberOfTeams + 2);
     mAgainst.assign(numberOfTeams + 2, vector<int>(numberOfTeams + 2, 0));
     teamPairID.assign(numberOfTeams + 2, vector<int>(numberOfTeams + 2));
@@ -237,6 +240,11 @@ int main() {
     // cerr << "Number of Nodes: " << numberOfNodes << "\n";
     cout << "\n";
     for (int i = 1; i <= numberOfTeams; i++) {
+        if (maxWins > Teams[i].win + Teams[i].left) {
+            reportOnATeam(i);
+            continue;
+        }
+
         // now anaylzing for team i
         buildGraph(i);
         setCapacity(i);
