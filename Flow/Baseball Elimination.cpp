@@ -48,6 +48,7 @@ void generateNodeIDs() {
 }
 
 void buildGraph(int x) {
+    adj.clear();
     adj.resize(numberOfNodes + 2);
     capacity.assign(numberOfNodes + 2, vector<int>(numberOfNodes + 2, 0));
     visited.assign(numberOfNodes + 2, false);
