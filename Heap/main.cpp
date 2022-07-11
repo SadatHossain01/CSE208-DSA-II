@@ -1,3 +1,4 @@
+#include <chrono>
 #include <ctime>
 #include <fstream>
 #include <iostream>
@@ -14,42 +15,39 @@ struct Edge {
 
 const int INF = 2e8;
 int n_vertices, n_edges, k;
-clock_t t1;
 vector<vector<Edge>> adj;
 vector<int> dist_bn, dist_fb;
 vector<int> len_bn, len_fb;
 
-void dijkstra(int s, bool binaryHeap) {
-    if (binaryHeap) {
-        // initialize-single-source-distance
-        fill(dist_bn.begin(), dist_bn.end(), INF);
-        fill(len_bn.begin(), len_bn.end(), INF);
-        dist_bn[s] = 0;
-        len_bn[s] = 0;
-        vector<Pair> v(n_vertices);
-        // 0-based
-        for (int i = 0; i < n_vertices; i++) {
-            if (i == s)
-                v[i] = {i, 0};
-            else
-                v[i] = {i, INF};
-        }
-        BinHeap<Pair> pq(v);
-        while (pq.getLen() > 0) {
-            // extract-min
-            Pair cur = pq.getMin();
-            // debug(cur.u, cur.w);
-            pq.deleteMin();
-            int u = cur.u;
-            for (const Edge& e : adj[u]) {
-                int v = e.v;
-                // relaxation
-                if (dist_bn[v] > dist_bn[u] + e.w) {
-                    int dx = dist_bn[v] - dist_bn[u] - e.w;
-                    pq.decreaseKey({v, dist_bn[v]}, dx);
-                    dist_bn[v] -= dx;
-                    len_bn[v] = len_bn[u] + 1;
-                }
+void dijkstra_bn(int s) {
+    // initialize-single-source-distance
+    fill(dist_bn.begin(), dist_bn.end(), INF);
+    fill(len_bn.begin(), len_bn.end(), INF);
+    dist_bn[s] = 0;
+    len_bn[s] = 0;
+    vector<Pair> v(n_vertices);
+    // 0-based
+    for (int i = 0; i < n_vertices; i++) {
+        if (i == s)
+            v[i] = {i, 0};
+        else
+            v[i] = {i, INF};
+    }
+    BinHeap<Pair> pq(v);
+    while (pq.getLen() > 0) {
+        // extract-min
+        Pair cur = pq.getMin();
+        // debug(cur.u, cur.w);
+        pq.deleteMin();
+        int u = cur.u;
+        for (const Edge& e : adj[u]) {
+            int v = e.v;
+            // relaxation
+            if (dist_bn[v] > dist_bn[u] + e.w) {
+                int dx = dist_bn[v] - dist_bn[u] - e.w;
+                pq.decreaseKey({v, dist_bn[v]}, dx);
+                dist_bn[v] -= dx;
+                len_bn[v] = len_bn[u] + 1;
             }
         }
     }
@@ -84,9 +82,13 @@ int main() {
     for (int q = 1; q <= k; q++) {
         int s, t;
         in2 >> s >> t;
-        t1 = clock();
-        dijkstra(s, true);
-        double binary_time = double(clock() - t1) / CLOCKS_PER_SEC;
+        auto startTime = chrono::high_resolution_clock::now();
+        dijkstra_bn(s);
+        auto endTime = chrono::high_resolution_clock::now();
+        double binary_time =
+            chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
+                .count() /
+            (1000000.0);
         cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "\n";
     }
 
