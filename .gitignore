@@ -2,3 +2,4 @@
 .clang-format
 *.exe
 *.json
+*.xml
