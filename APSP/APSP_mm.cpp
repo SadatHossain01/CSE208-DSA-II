@@ -32,6 +32,9 @@ void mat_mul_shortest_path() {
 
 void mat_mul_shortest_path_faster() {
     distmm = adj_mat;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) distmm[i][i] = 0;
+    }
 
     int b = n - 1;
     int m = 1;
