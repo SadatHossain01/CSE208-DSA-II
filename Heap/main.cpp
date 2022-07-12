@@ -1,11 +1,11 @@
 #include <chrono>
-#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <vector>
 
 #include "BinaryHeap.h"
+#include "FibHeap.h"
 #include "header.h"
 using namespace std;
 
@@ -33,23 +33,54 @@ void dijkstra_bn(int s) {
         else
             v[i] = {i, INF};
     }
-    BinHeap<Pair> pq(v);
-    while (pq.getLen() > 0) {
+    BinHeap<Pair> bq(v);
+    while (bq.getSize() > 0) {
         // extract-min
-        Pair cur = pq.getMin();
+        Pair cur = bq.getMin();
         // debug(cur.u, cur.w);
-        pq.deleteMin();
+        bq.deleteMin();
         int u = cur.u;
         for (const Edge& e : adj[u]) {
             int v = e.v;
             // relaxation
             if (dist_bn[v] > dist_bn[u] + e.w) {
                 int dx = dist_bn[v] - dist_bn[u] - e.w;
-                pq.decreaseKey({v, dist_bn[v]}, dx);
+                bq.decreaseKey({v, dist_bn[v]}, dx);
                 dist_bn[v] -= dx;
                 len_bn[v] = len_bn[u] + 1;
             }
         }
+    }
+}
+
+void dijkstra_fb(int s) {
+    // initialize-single-source-distance
+    fill(dist_fb.begin(), dist_fb.end(), INF);
+    fill(len_fb.begin(), len_fb.end(), INF);
+    dist_fb[s] = 0;
+    len_fb[s] = 0;
+    // 0-based
+    FibHeap<Pair> fq;
+    for (int i = 0; i < n_vertices; i++) {
+        Pair p = {i, INF};
+        if (i == s) p.w = 0;
+        fq.insert(p);
+        // debug(p.u, p.w, fq.getMin().u, fq.getMin().w);
+    }
+    while (fq.getSize() > 0) {
+        Pair cur = fq.extractMin();
+        // debug(cur.u, cur.w);
+        int u = cur.u;
+        // for (const Edge& e : adj[u]) {
+        //     int v = e.v;
+        //     // relaxation
+        //     if (dist_fb[v] > dist_fb[u] + e.w) {
+        //         int dx = dist_fb[v] - dist_fb[u] - e.w;
+        //         fq.decreaseKey({v, dist_fb[v]}, dx);
+        //         dist_fb[v] -= dx;
+        //         len_fb[v] = len_fb[u] + 1;
+        //     }
+        // }
     }
 }
 
@@ -89,7 +120,8 @@ int main() {
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "\n";
+        dijkstra_fb(s);
+        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms\n";
     }
 
     in2.close();

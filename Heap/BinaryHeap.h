@@ -17,6 +17,7 @@ class BinHeap {
    private:
     T* arr;
     int maxSize, len;
+
     void MIN_HEAPIFY(int idx) {
         if (idx < 1) return;
         int left = LEFT(idx);
@@ -36,6 +37,7 @@ class BinHeap {
             MIN_HEAPIFY(min_idx);
         }
     }
+
     int searchHelp(T val) {
         int ret = -1;
         for (int i = 1; i <= len; i++) {
@@ -46,6 +48,7 @@ class BinHeap {
         }
         return ret;
     }
+
     void decreaseKeyHelp(int idx, T x) {
         int parent;
         while (idx > 1) {
@@ -64,6 +67,7 @@ class BinHeap {
         len = 0;
         arr = new T[maxSize + 1];
     }
+
     BinHeap(const vector<T>& vec) {
         maxSize = vec.size();
         arr = new T[maxSize + 1];
@@ -71,16 +75,19 @@ class BinHeap {
         len = maxSize;
         for (int i = (maxSize + 1) >> 1; i >= 1; i--) MIN_HEAPIFY(i);
     }
+
     BinHeap(const BinHeap& other) {
         maxSize = other.maxSize;
         len = other.len;
         arr = new T[maxSize];
         for (int i = 0; i < maxSize; i++) arr[i] = other.arr[i];
     }
+
     ~BinHeap() {
         delete[] arr;
         len = 0;
     }
+
     BinHeap& operator=(const BinHeap& other) {
         if (this == &other) return *this;
         maxSize = other.maxSize;
@@ -88,6 +95,7 @@ class BinHeap {
         arr = new T[maxSize];
         for (int i = 0; i < maxSize; i++) arr[i] = other.arr[i];
     }
+
     void insert(T x) {
         assert(len < maxSize);
         arr[++len] = x;
@@ -102,21 +110,26 @@ class BinHeap {
                 break;
         }
     }
+
     void decreaseKey(T x, int dx) {
+        assert(dx >= 0);
         int idx = searchHelp(x);
         assert(idx != -1);
         arr[idx] = arr[idx] - dx;
         decreaseKeyHelp(idx, arr[idx]);
     }
+
     void deleteMin() {
         assert(len > 0);
         swap(arr[1], arr[len]);
         len--;
         MIN_HEAPIFY(1);
     }
+
     T getMin() const {
         assert(len > 0);
         return arr[1];
     }
-    int getLen() const { return len; }
+
+    int getSize() const { return len; }
 };
