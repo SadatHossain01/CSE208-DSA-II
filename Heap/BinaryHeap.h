@@ -62,7 +62,7 @@ class BinHeap {
     }
 
    public:
-    BinHeap(int sz) {
+    BinHeap(int sz = 200) {
         maxSize = sz;
         len = 0;
         arr = new T[maxSize + 1];
@@ -97,7 +97,13 @@ class BinHeap {
     }
 
     void insert(T x) {
-        assert(len < maxSize);
+        if (len == maxSize) {
+            maxSize *= 2;
+            T* another = new T[maxSize + 1];
+            for (int i = 0; i <= len; i++) another[i] = arr[i];
+            delete[] arr;
+            arr = another;
+        }
         arr[++len] = x;
         int idx = len;
         int parent;
@@ -132,4 +138,6 @@ class BinHeap {
     }
 
     int getSize() const { return len; }
+
+    bool isEmpty() const { return len == 0; }
 };

@@ -133,6 +133,8 @@ class FibHeap {
 
     int getSize() const { return this->n; }
 
+    bool isEmpty() const { return this->n == 0; }
+
     FibHeap<T>* union(FibHeap<T>* h1, FibHeap<T>* h2) {
         FibHeap<T>* h = new FibHeap<T>();
         h->min = h1->min;
@@ -147,7 +149,7 @@ class FibHeap {
 
     T extractMin() {
         Node<T>* z = this->min;
-        if (z == nullptr) return z;
+        if (z == nullptr) return {-1, -1};
         // for each child x of z, add x to the root list
         Node<T>* x = z->child;
         Node<T>* start = x;

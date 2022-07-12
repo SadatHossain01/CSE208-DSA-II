@@ -18,36 +18,31 @@ int n_vertices, n_edges, k;
 vector<vector<Edge>> adj;
 vector<int> dist_bn, dist_fb;
 vector<int> len_bn, len_fb;
+vector<bool> visited;
 
 void dijkstra_bn(int s) {
     // initialize-single-source-distance
     fill(dist_bn.begin(), dist_bn.end(), INF);
     fill(len_bn.begin(), len_bn.end(), INF);
+    fill(visited.begin(), visited.end(), false);
     dist_bn[s] = 0;
     len_bn[s] = 0;
-    vector<Pair> v(n_vertices);
-    // 0-based
-    for (int i = 0; i < n_vertices; i++) {
-        if (i == s)
-            v[i] = {i, 0};
-        else
-            v[i] = {i, INF};
-    }
-    BinHeap<Pair> bq(v);
-    while (bq.getSize() > 0) {
-        // extract-min
-        Pair cur = bq.getMin();
-        // debug(cur.u, cur.w);
+    BinHeap<Pair> bq;
+    bq.insert({s, 0});
+    while (!bq.isEmpty()) {
+        Pair p = bq.getMin();
+        int u = p.u;
         bq.deleteMin();
-        int u = cur.u;
-        for (const Edge& e : adj[u]) {
+        if (visited[u]) continue;
+        visited[u] = true;
+        for (auto& e : adj[u]) {
             int v = e.v;
+            int w = e.w;
             // relaxation
-            if (dist_bn[v] > dist_bn[u] + e.w) {
-                int dx = dist_bn[v] - dist_bn[u] - e.w;
-                bq.decreaseKey({v, dist_bn[v]}, dx);
-                dist_bn[v] -= dx;
+            if (dist_bn[v] > dist_bn[u] + w) {
+                dist_bn[v] = dist_bn[u] + w;
                 len_bn[v] = len_bn[u] + 1;
+                bq.insert({v, dist_bn[v]});
             }
         }
     }
@@ -57,30 +52,26 @@ void dijkstra_fb(int s) {
     // initialize-single-source-distance
     fill(dist_fb.begin(), dist_fb.end(), INF);
     fill(len_fb.begin(), len_fb.end(), INF);
+    fill(visited.begin(), visited.end(), false);
     dist_fb[s] = 0;
     len_fb[s] = 0;
-    // 0-based
     FibHeap<Pair> fq;
-    for (int i = 0; i < n_vertices; i++) {
-        Pair p = {i, INF};
-        if (i == s) p.w = 0;
-        fq.insert(p);
-        // debug(p.u, p.w, fq.getMin().u, fq.getMin().w);
-    }
-    while (fq.getSize() > 0) {
-        Pair cur = fq.extractMin();
-        // debug(cur.u, cur.w);
-        int u = cur.u;
-        // for (const Edge& e : adj[u]) {
-        //     int v = e.v;
-        //     // relaxation
-        //     if (dist_fb[v] > dist_fb[u] + e.w) {
-        //         int dx = dist_fb[v] - dist_fb[u] - e.w;
-        //         fq.decreaseKey({v, dist_fb[v]}, dx);
-        //         dist_fb[v] -= dx;
-        //         len_fb[v] = len_fb[u] + 1;
-        //     }
-        // }
+    fq.insert({s, 0});
+    while (!fq.isEmpty()) {
+        Pair p = fq.extractMin();
+        int u = p.u;
+        if (visited[u]) continue;
+        visited[u] = true;
+        for (auto& e : adj[u]) {
+            int v = e.v;
+            int w = e.w;
+            // relaxation
+            if (dist_fb[v] > dist_fb[u] + w) {
+                dist_fb[v] = dist_fb[u] + w;
+                len_fb[v] = len_fb[u] + 1;
+                fq.insert({v, dist_fb[v]});
+            }
+        }
     }
 }
 
@@ -120,8 +111,16 @@ int main() {
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
+        auto startTime = chrono::high_resolution_clock::now();
         dijkstra_fb(s);
-        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms\n";
+        auto endTime = chrono::high_resolution_clock::now();
+        double fibonacci_time =
+            chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
+                .count() /
+            (1000000.0);
+        debug(len_fb[t], dist_fb[t]);
+        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
+             << fibonacci_time << "ms\n";
     }
 
     in2.close();
