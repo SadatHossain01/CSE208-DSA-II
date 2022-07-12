@@ -65,6 +65,7 @@ class FibHeap {
         remove(y);
         // make y a child of x
         y->parent = x;
+        y->left = y->right = y;
         Node<T>* prevChild = x->child;
         if (prevChild == nullptr) {
             x->child = y;
@@ -114,6 +115,7 @@ class FibHeap {
                 if (A[i]->val < this->min->val) this->min = A[i];
             }
         }
+        assert(min != nullptr);
         delete[] A;
     }
 
@@ -154,8 +156,10 @@ class FibHeap {
             concatenate(this->min, x);
             if (x->val < this->min->val) this->min = x;
         }
+        assert(min != nullptr);
         n++;
-        printRootList();
+        // printRootList();
+        // debug("insertion", val, n);
     }
 
     T getMin() const {
@@ -186,8 +190,8 @@ class FibHeap {
     }
 
     T extractMin() {
-        assert(n > 0);
-        debug(min->val, min->right->val);
+        assert(n > 0 && min != nullptr);
+        debug(min->val, min->right->val, n);
         Node<T>* z = this->min;
         // for each child x of z, add x to the root list
         // or just concatenate the child list of z to the root list
@@ -205,15 +209,16 @@ class FibHeap {
         }
         // remove z from the root list
         remove(z);
-        if (z == z->right)  // only one member in the root list
+        if (z == z->right) {  // only one member in the root list
             this->min = nullptr;
-        else {
+        } else {
             this->min = z->right;
             // debug("consolidation begin");
             consolidate();
             // debug("consolidation end");
         }
         n--;
+        debug(min == nullptr, n);
         return z->val;
     }
 };

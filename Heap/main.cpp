@@ -32,7 +32,7 @@ void dijkstra_bn(int s) {
     while (!bq.isEmpty()) {
         Pair p = bq.getMin();
         int u = p.u;
-        debug(p.u, p.w);
+        // debug(p.u, p.w);
         bq.deleteMin();
         if (visited[u]) continue;
         visited[u] = true;
@@ -73,7 +73,6 @@ void dijkstra_fb(int s) {
                 dist_fb[v] = dist_fb[u] + w;
                 len_fb[v] = len_fb[u] + 1;
                 fq.insert({v, dist_fb[v]});
-                debug("insertion done", u, v, dist_fb[v], fq.getSize());
             }
         }
     }
@@ -109,13 +108,13 @@ int main() {
         int s, t;
         in2 >> s >> t;
         auto startTime = chrono::high_resolution_clock::now();
-        // dijkstra_bn(s);
+        dijkstra_bn(s);
         auto endTime = chrono::high_resolution_clock::now();
         double binary_time =
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        cout << dist_bn[t] << "\n";
+        cout << "Binary: " << dist_bn[t] << "\n";
         startTime = chrono::high_resolution_clock::now();
         dijkstra_fb(s);
         endTime = chrono::high_resolution_clock::now();
@@ -123,7 +122,8 @@ int main() {
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
+        // debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
+        cout << "Fibonacci: " << dist_fb[t] << "\n";
         cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
              << fibonacci_time << "ms\n";
     }
