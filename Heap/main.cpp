@@ -47,6 +47,7 @@ void dijkstra_bn(int s) {
             }
         }
     }
+    cerr << "Binary done\n";
 }
 
 void dijkstra_fb(int s) {
@@ -76,19 +77,20 @@ void dijkstra_fb(int s) {
             }
         }
     }
+    cerr << "Fibonacci done\n";
 }
 
 int main() {
     ifstream in1;
-    in1.open("short.txt");
+    in1.open("large1.txt");
 
     in1 >> n_vertices >> n_edges;
-    adj.resize(n_vertices + 1);
-    dist_bn.resize(n_vertices + 1);
-    dist_fb.resize(n_vertices + 1);
-    len_bn.resize(n_vertices + 1);
-    len_fb.resize(n_vertices + 1);
-    visited.resize(n_vertices + 1);
+    adj.resize(n_vertices + 2);
+    dist_bn.resize(n_vertices + 2);
+    dist_fb.resize(n_vertices + 2);
+    len_bn.resize(n_vertices + 2);
+    len_fb.resize(n_vertices + 2);
+    visited.resize(n_vertices + 2);
     for (int i = 1; i <= n_edges; i++) {
         int u, v, w;
         in1 >> u >> v >> w;
@@ -100,7 +102,7 @@ int main() {
     in1.close();
 
     ifstream in2;
-    in2.open("q_short.txt");
+    in2.open("q_large1.txt");
     ofstream out;
     out.open("output.txt");
     in2 >> k;
