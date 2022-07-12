@@ -50,12 +50,12 @@ class FibHeap {
         }
         // increment degree[x], clear mark[y]
         x->degree++;
-        y->mark = false;
+        y->marked = false;
     }
 
     void consolidate() {
         const int lg = __lg(this->n + 2);
-        Node<T>* A = new Node<T>[lg];
+        Node<T>** A = new Node<T>*[lg];
         for (int i = 0; i < lg; i++) A[i] = nullptr;
         // iterate over all nodes w in the root list
         Node<T>* w = this->min;
@@ -65,7 +65,9 @@ class FibHeap {
             int d = x->degree;
             while (A[d] != nullptr) {
                 Node<T>* y = A[d];  // same degree as x
-                if (x->val > y->val) swap(x, y);
+                if (x->val > y->val) {
+                    swap(x, y);
+                }
                 link(y, x);  // remove y from rootlist, make y a child of x,
                              // degree[x] is incremented, mark[y] is cleared
                 A[d] = nullptr;
@@ -83,7 +85,7 @@ class FibHeap {
                     this->min = A[i];
             }
         }
-        delete[] arr;
+        delete[] A;
     }
     bool searchDown(T x, Node<T>* cur, Node<T>* ret) {
         // only goes down following the child pointers
@@ -99,7 +101,6 @@ class FibHeap {
         }
         return false;  // not found
     }
-    void searchHelp(T x) {}
 
    public:
     FibHeap() {
@@ -135,7 +136,7 @@ class FibHeap {
 
     bool isEmpty() const { return this->n == 0; }
 
-    FibHeap<T>* union(FibHeap<T>* h1, FibHeap<T>* h2) {
+    FibHeap<T>* unite_heap(FibHeap<T>* h1, FibHeap<T>* h2) {
         FibHeap<T>* h = new FibHeap<T>();
         h->min = h1->min;
         concatenate(h->min, h2->min);
@@ -171,6 +172,4 @@ class FibHeap {
         this->n--;
         return z->val;
     }
-
-    void decreaseKey(T val, int dx) { assert(dx >= 0); }
 };

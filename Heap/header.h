@@ -1,9 +1,11 @@
 #pragma once
 #include <iostream>
+#include <string>
 using namespace std;
 
 void __print(int x) { cerr << x; }
 void _print() { cerr << "]\n"; }
+void __print(const string& x) { cerr << '\"' << x << '\"'; }
 template <typename T, typename... V>
 void _print(T t, V... v) {
     __print(t);

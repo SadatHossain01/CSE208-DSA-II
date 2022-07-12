@@ -32,6 +32,7 @@ void dijkstra_bn(int s) {
     while (!bq.isEmpty()) {
         Pair p = bq.getMin();
         int u = p.u;
+        debug(p.u, p.w);
         bq.deleteMin();
         if (visited[u]) continue;
         visited[u] = true;
@@ -60,6 +61,7 @@ void dijkstra_fb(int s) {
     while (!fq.isEmpty()) {
         Pair p = fq.extractMin();
         int u = p.u;
+        debug(p.u, p.w);
         if (visited[u]) continue;
         visited[u] = true;
         for (auto& e : adj[u]) {
@@ -85,6 +87,7 @@ int main() {
     dist_fb.resize(n_vertices + 1);
     len_bn.resize(n_vertices + 1);
     len_fb.resize(n_vertices + 1);
+    visited.resize(n_vertices + 1);
     for (int i = 1; i <= n_edges; i++) {
         int u, v, w;
         in1 >> u >> v >> w;
@@ -93,7 +96,6 @@ int main() {
         e = {v, u, w};
         adj[v].push_back(e);
     }
-
     in1.close();
 
     ifstream in2;
@@ -105,15 +107,17 @@ int main() {
         int s, t;
         in2 >> s >> t;
         auto startTime = chrono::high_resolution_clock::now();
+
         dijkstra_bn(s);
         auto endTime = chrono::high_resolution_clock::now();
         double binary_time =
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        auto startTime = chrono::high_resolution_clock::now();
+        debug(len_bn[t], dist_bn[t]);
+        startTime = chrono::high_resolution_clock::now();
         dijkstra_fb(s);
-        auto endTime = chrono::high_resolution_clock::now();
+        endTime = chrono::high_resolution_clock::now();
         double fibonacci_time =
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
