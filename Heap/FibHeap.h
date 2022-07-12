@@ -158,8 +158,8 @@ class FibHeap {
         }
         assert(min != nullptr);
         n++;
-        // printRootList();
-        // debug("insertion", val, n);
+        printRootList();
+        debug("insertion", val, n);
     }
 
     T getMin() const {

@@ -80,7 +80,7 @@ void dijkstra_fb(int s) {
 
 int main() {
     ifstream in1;
-    in1.open("in2.txt");
+    in1.open("short.txt");
 
     in1 >> n_vertices >> n_edges;
     adj.resize(n_vertices + 1);
@@ -100,7 +100,7 @@ int main() {
     in1.close();
 
     ifstream in2;
-    in2.open("queries2.txt");
+    in2.open("q_short.txt");
     ofstream out;
     out.open("output.txt");
     in2 >> k;
