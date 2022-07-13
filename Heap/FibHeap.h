@@ -83,8 +83,13 @@ class FibHeap {
         Node<T>* prevChild = x->child;
         if (prevChild == nullptr) {
             x->child = y;
-        } else
+        } else {
+            // debug(prevChild->val, prevChild->left->val,
+            // prevChild->right->val);
             concatenate(prevChild, y);
+            // debug(prevChild->val, prevChild->left->val,
+            // prevChild->right->val); debug(y->left->val, y->right->val);
+        }
         // increment degree[x], clear mark[y]
         x->degree++;
         y->marked = false;
@@ -101,8 +106,9 @@ class FibHeap {
         // debug("consolidation while start");
         while (true) {
             Node<T>* x = w;
-            debug(x->val, start->val);
+            // debug(x->val, x->left->val, x->right->val, start->val);
             int d = x->degree;
+            if (A[d] != nullptr && A[d] == x) break;
             while (A[d] != nullptr) {
                 Node<T>* y = A[d];  // another node with same degree as x
                 if (x->val > y->val) swap(x, y);
@@ -113,7 +119,7 @@ class FibHeap {
                 A[d] = nullptr;
                 d++;
             }
-            debug("done");
+            // debug("done");
             A[d] = x;
             // debug("before right shift", w->val);
             w = w->right;

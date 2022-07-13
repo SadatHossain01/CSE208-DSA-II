@@ -81,6 +81,8 @@ void dijkstra_fb(int s) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     ifstream in1;
     in1.open("large1.txt");
 
