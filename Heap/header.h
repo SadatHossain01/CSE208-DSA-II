@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include <iostream>
 #include <string>
 using namespace std;
@@ -22,12 +23,7 @@ void _print(T t, V... v) {
 
 struct Pair {
     int u, w;
-    bool operator<(const Pair& other) const {
-        if (w != other.w)
-            return w <= other.w;
-        else
-            return u <= other.u;
-    }
+    bool operator<(const Pair& other) const { return w <= other.w; }
     bool operator>(const Pair& other) const { return w > other.w; }
     bool operator==(const Pair& other) const {
         return u == other.u && w == other.w;

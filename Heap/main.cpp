@@ -29,6 +29,7 @@ void dijkstra_bn(int s) {
     len_bn[s] = 0;
     BinHeap<Pair> bq;
     bq.insert({s, 0});
+
     while (!bq.isEmpty()) {
         Pair p = bq.getMin();
         int u = p.u;
@@ -47,7 +48,7 @@ void dijkstra_bn(int s) {
             }
         }
     }
-    cerr << "Binary done\n";
+    // cerr << "Binary done\n";
 }
 
 void dijkstra_fb(int s) {
@@ -59,6 +60,7 @@ void dijkstra_fb(int s) {
     len_fb[s] = 0;
     FibHeap<Pair> fq;
     fq.insert({s, 0});
+
     while (!fq.isEmpty()) {
         Pair p = fq.extractMin();
         // debug("extraction done", fq.getSize());
@@ -77,12 +79,10 @@ void dijkstra_fb(int s) {
             }
         }
     }
-    cerr << "Fibonacci done\n";
+    // cerr << "Fibonacci done\n";
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
     ifstream in1;
     in1.open("large1.txt");
 
@@ -93,7 +93,9 @@ int main() {
     len_bn.resize(n_vertices + 2);
     len_fb.resize(n_vertices + 2);
     visited.resize(n_vertices + 2);
+
     for (int i = 1; i <= n_edges; i++) {
+        // assuming 0-based
         int u, v, w;
         in1 >> u >> v >> w;
         Edge e = {u, v, w};
@@ -107,6 +109,7 @@ int main() {
     in2.open("q_large1.txt");
     ofstream out;
     out.open("output.txt");
+
     in2 >> k;
     for (int q = 1; q <= k; q++) {
         int s, t;
@@ -118,7 +121,8 @@ int main() {
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        cout << "Binary: " << dist_bn[t] << "\n";
+        // cout << "Binary: " << dist_bn[t] << " " << len_bn[t] << "\n";
+
         startTime = chrono::high_resolution_clock::now();
         dijkstra_fb(s);
         endTime = chrono::high_resolution_clock::now();
@@ -127,9 +131,10 @@ int main() {
                 .count() /
             (1000000.0);
         // debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
-        cout << "Fibonacci: " << dist_fb[t] << "\n";
-        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
-             << fibonacci_time << "ms\n";
+        // cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
+
+        out << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
+            << fibonacci_time << "ms\n";
     }
 
     in2.close();

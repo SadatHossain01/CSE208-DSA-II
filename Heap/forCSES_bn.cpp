@@ -1,8 +1,55 @@
-#pragma once
-#include <vector>
-
-#include "header.h"
+#include <bits/stdc++.h>
 using namespace std;
+
+typedef long long ll;
+
+struct Edge {
+    int u, v;
+    ll w;
+};
+
+struct Pair {
+    int u;
+    ll w;
+    bool operator<(const Pair& other) const { return w <= other.w; }
+    bool operator>(const Pair& other) const { return w > other.w; }
+    bool operator==(const Pair& other) const {
+        return u == other.u && w == other.w;
+    }
+    Pair operator-(int dx) const {
+        Pair ret = {u, w - dx};
+        return ret;
+    }
+    Pair& operator=(const Pair& other) {
+        u = other.u;
+        w = other.w;
+        return *this;
+    }
+};
+
+void __print(int x) { cerr << x; }
+void _print() { cerr << "]\n"; }
+void __print(const string& x) { cerr << '\"' << x << '\"'; }
+template <typename T, typename... V>
+void _print(T t, V... v) {
+    __print(t);
+    if (sizeof...(v)) cerr << ", ";
+    _print(v...);
+}
+#ifdef LOCAL
+#define debug(x...)               \
+    cerr << "[" << #x << "] = ["; \
+    _print(x)
+#else
+#define debug(x...)
+#endif
+
+const ll INF = 2e16;
+int n_vertices, n_edges;
+vector<vector<Edge>> adj;
+vector<ll> dist_bn;
+vector<int> len_bn;
+vector<bool> visited;
 
 inline int LEFT(int x) { return x << 1; }
 inline int RIGHT(int x) { return ((x << 1) | 1); }
@@ -138,3 +185,61 @@ class BinHeap {
 
     bool isEmpty() const { return len == 0; }
 };
+
+void dijkstra_bn(int s) {
+    // initialize-single-source-distance
+    fill(dist_bn.begin(), dist_bn.end(), INF);
+    fill(len_bn.begin(), len_bn.end(), INF);
+    fill(visited.begin(), visited.end(), false);
+    dist_bn[s] = 0;
+    len_bn[s] = 0;
+    BinHeap<Pair> bq;
+    bq.insert({s, 0});
+
+    while (!bq.isEmpty()) {
+        Pair p = bq.getMin();
+        int u = p.u;
+        // debug(p.u, p.w);
+        bq.deleteMin();
+        if (visited[u]) continue;
+        visited[u] = true;
+        for (auto& e : adj[u]) {
+            int v = e.v;
+            int w = e.w;
+            // relaxation
+            if (dist_bn[v] > dist_bn[u] + w) {
+                dist_bn[v] = dist_bn[u] + w;
+                len_bn[v] = len_bn[u] + 1;
+                bq.insert({v, dist_bn[v]});
+            }
+        }
+    }
+    // cerr << "Binary done\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n_vertices >> n_edges;
+
+    adj.resize(n_vertices + 2);
+    dist_bn.resize(n_vertices + 2);
+    len_bn.resize(n_vertices + 2);
+    visited.resize(n_vertices + 2);
+
+    for (int i = 0; i < n_edges; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        a--;
+        b--;
+        Edge e = {a, b, c};
+        adj[a].push_back(e);
+    }
+
+    dijkstra_bn(0);
+
+    for (int i = 0; i < n_vertices; i++) {
+        cout << dist_bn[i] << " ";
+    }
+}

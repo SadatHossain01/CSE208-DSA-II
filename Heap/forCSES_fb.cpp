@@ -1,6 +1,55 @@
-#pragma once
+#include <bits/stdc++.h>
+using namespace std;
 
-#include "header.h"
+typedef long long ll;
+
+struct Edge {
+    int u, v;
+    ll w;
+};
+
+struct Pair {
+    int u;
+    ll w;
+    bool operator<(const Pair& other) const { return w <= other.w; }
+    bool operator>(const Pair& other) const { return w > other.w; }
+    bool operator==(const Pair& other) const {
+        return u == other.u && w == other.w;
+    }
+    Pair operator-(int dx) const {
+        Pair ret = {u, w - dx};
+        return ret;
+    }
+    Pair& operator=(const Pair& other) {
+        u = other.u;
+        w = other.w;
+        return *this;
+    }
+};
+
+void __print(int x) { cerr << x; }
+void _print() { cerr << "]\n"; }
+void __print(const string& x) { cerr << '\"' << x << '\"'; }
+template <typename T, typename... V>
+void _print(T t, V... v) {
+    __print(t);
+    if (sizeof...(v)) cerr << ", ";
+    _print(v...);
+}
+#ifdef LOCAL
+#define debug(x...)               \
+    cerr << "[" << #x << "] = ["; \
+    _print(x)
+#else
+#define debug(x...)
+#endif
+
+const ll INF = 2e16;
+int n_vertices, n_edges;
+vector<vector<Edge>> adj;
+vector<ll> dist_fb;
+vector<int> len_fb;
+vector<bool> visited;
 
 template <typename T>
 struct Node {
@@ -19,7 +68,6 @@ struct Node {
     }
 };
 
-// Min Heap
 template <typename T>
 class FibHeap {
    private:
@@ -236,3 +284,61 @@ class FibHeap {
         return z->val;
     }
 };
+
+void dijkstra_fb(int s) {
+    // initialize-single-source-distance
+    fill(dist_fb.begin(), dist_fb.end(), INF);
+    fill(len_fb.begin(), len_fb.end(), INF);
+    fill(visited.begin(), visited.end(), false);
+    dist_fb[s] = 0;
+    len_fb[s] = 0;
+    FibHeap<Pair> fq;
+    fq.insert({s, 0});
+
+    while (!fq.isEmpty()) {
+        Pair p = fq.extractMin();
+        // debug("extraction done", fq.getSize());
+        int u = p.u;
+        // debug(p.u, p.w, visited[p.u]);
+        if (visited[u]) continue;
+        visited[u] = true;
+        for (auto& e : adj[u]) {
+            int v = e.v;
+            ll w = e.w;
+            // relaxation
+            if (dist_fb[v] > dist_fb[u] + w) {
+                dist_fb[v] = dist_fb[u] + w;
+                len_fb[v] = len_fb[u] + 1;
+                fq.insert({v, dist_fb[v]});
+            }
+        }
+    }
+    // cerr << "Fibonacci done\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n_vertices >> n_edges;
+
+    adj.resize(n_vertices + 2);
+    dist_fb.resize(n_vertices + 2);
+    len_fb.resize(n_vertices + 2);
+    visited.resize(n_vertices + 2);
+
+    for (int i = 0; i < n_edges; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        a--;
+        b--;
+        Edge e = {a, b, c};
+        adj[a].push_back(e);
+    }
+
+    dijkstra_fb(0);
+
+    for (int i = 0; i < n_vertices; i++) {
+        cout << dist_fb[i] << " ";
+    }
+}
