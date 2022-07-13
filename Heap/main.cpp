@@ -49,7 +49,7 @@ void dijkstra_bn(int s) {
             }
         }
     }
-    cerr << "Binary done\n";
+    // cerr << "Binary done\n";
 }
 
 void dijkstra_fb(int s) {
@@ -80,7 +80,7 @@ void dijkstra_fb(int s) {
             }
         }
     }
-    cerr << "Fibonacci done\n";
+    // cerr << "Fibonacci done\n";
 }
 
 int main() {
@@ -123,7 +123,7 @@ int main() {
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        cout << "Binary: " << dist_bn[t] << " " << len_bn[t] << "\n";
+        // cout << "Binary: " << dist_bn[t] << " " << len_bn[t] << "\n";
 
         startTime = chrono::high_resolution_clock::now();
         dijkstra_fb(s);
@@ -133,10 +133,10 @@ int main() {
                 .count() /
             (1000000.0);
         // debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
-        cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
+        // cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
 
-        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
-             << fibonacci_time << "ms\n";
+        out << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
+            << fibonacci_time << "ms\n";
     }
 
     in2.close();

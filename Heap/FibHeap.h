@@ -100,14 +100,24 @@ class FibHeap {
     }
 
     void consolidate() {
-        debug("consolidation start");
+        // debug("consolidation start");
         const int lg = __lg(n) + 2;
         Node<T>** A = new Node<T>*[lg];
         for (int i = 0; i < lg; i++) A[i] = nullptr;
         // iterate over all nodes w in the root list
+
+        // fix the min first
         Node<T>* w = min;
         Node<T>* start = w;
         // debug("consolidation while start");
+        while (true) {
+            if (w->val < min->val) min = w;
+            w = w->right;
+            if (w == start) break;
+        }
+
+        w = min;
+        start = w;
         while (true) {
             Node<T>* x = w;
             // debug(x->val, x->left->val, x->right->val, start->val);
@@ -135,10 +145,11 @@ class FibHeap {
             else if (A[i]->val < min->val)
                 min = A[i];
         }
+
         // debug("consolidation while end");
         assert(min != nullptr);
         delete[] A;
-        debug("consolidation end");
+        // debug("consolidation end");
         // printRootList(min);
     }
 
@@ -209,15 +220,11 @@ class FibHeap {
         //       n);
         Node<T>* z = min;
         // for each child x of z, add x to the root list
-        // or just concatenate the child list of z to the root list
-        // first update their parents to nullptr though
+        // or just concatenate the child list of z to the root list, both works
 
         // if (z->child != nullptr) {
-        //     // debug("working with child of", z->val, z->degree);
         //     Node<T>* cur = z->child;
         //     while (true) {
-        //         // debug(cur->val, cur->left->val, cur->right->val,
-        //         // z->child->val);
         //         cur->parent = nullptr;
         //         z->degree--;
         //         cur = cur->right;
@@ -226,7 +233,7 @@ class FibHeap {
         //     concatenate(min, z->child);
         // }
 
-        // trying the alternate version here,
+        // trying the book-prescribed version here,
         // that is promoting the children one by one
         if (z->child != nullptr) {
             // debug("working with child of", z->val, z->degree);

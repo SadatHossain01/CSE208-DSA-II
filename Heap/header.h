@@ -26,8 +26,10 @@ void _print(T t, V... v) {
 struct Pair {
     int u;
     long long w;
-    bool operator<(const Pair& other) const { return w <= other.w; }
+    bool operator<(const Pair& other) const { return w < other.w; }
+    bool operator<=(const Pair& other) const { return w <= other.w; }
     bool operator>(const Pair& other) const { return w > other.w; }
+    bool operator>=(const Pair& other) const { return w >= other.w; }
     bool operator==(const Pair& other) const {
         return u == other.u && w == other.w;
     }

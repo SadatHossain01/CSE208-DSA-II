@@ -11,8 +11,10 @@ struct Edge {
 struct Pair {
     int u;
     ll w;
-    bool operator<(const Pair& other) const { return w <= other.w; }
+    bool operator<(const Pair& other) const { return w < other.w; }
+    bool operator<=(const Pair& other) const { return w <= other.w; }
     bool operator>(const Pair& other) const { return w > other.w; }
+    bool operator>=(const Pair& other) const { return w >= other.w; }
     bool operator==(const Pair& other) const {
         return u == other.u && w == other.w;
     }
@@ -28,6 +30,7 @@ struct Pair {
 };
 
 void __print(int x) { cerr << x; }
+void __print(long long x) { cerr << x; }
 void _print() { cerr << "]\n"; }
 void __print(const string& x) { cerr << '\"' << x << '\"'; }
 template <typename T, typename... V>
@@ -68,6 +71,7 @@ struct Node {
     }
 };
 
+// Min Heap
 template <typename T>
 class FibHeap {
    private:
@@ -129,7 +133,6 @@ class FibHeap {
     void link(Node<T>* y, Node<T>* x) {
         // debug("making ", y->val, " child of ", x->val);
         remove(y);
-        if (min == y) min = x;  // where were you all day?
         // make y a child of x
         y->parent = x;
         y->left = y->right = y;
@@ -149,14 +152,24 @@ class FibHeap {
     }
 
     void consolidate() {
-        debug("consolidation start");
+        // debug("consolidation start");
         const int lg = __lg(n) + 2;
         Node<T>** A = new Node<T>*[lg];
         for (int i = 0; i < lg; i++) A[i] = nullptr;
         // iterate over all nodes w in the root list
+
+        // fix the min first
         Node<T>* w = min;
         Node<T>* start = w;
         // debug("consolidation while start");
+        while (true) {
+            if (w->val < min->val) min = w;
+            w = w->right;
+            if (w == start) break;
+        }
+
+        w = min;
+        start = w;
         while (true) {
             Node<T>* x = w;
             // debug(x->val, x->left->val, x->right->val, start->val);
@@ -164,9 +177,10 @@ class FibHeap {
             if (A[d] != nullptr && A[d] == x) break;
             while (A[d] != nullptr) {
                 Node<T>* y = A[d];  // another node with same degree as x
-                if (x->val > y->val) swap(x, y);
+                if (y->val < x->val) swap(x, y);
                 if (start == y) start = x;
                 if (w == y) w = x;
+                if (min == y) min = x;  // where were you all day?
                 link(y, x);  // remove y from rootlist, make y a child of x,
                              // degree[x] is incremented, mark[y] is cleared
                 A[d] = nullptr;
@@ -180,13 +194,14 @@ class FibHeap {
             if (A[i] == nullptr) continue;
             if (min == nullptr)
                 min = A[i];
-            else if (min->val > A[i]->val)
+            else if (A[i]->val < min->val)
                 min = A[i];
         }
+
         // debug("consolidation while end");
         assert(min != nullptr);
         delete[] A;
-        debug("consolidation end");
+        // debug("consolidation end");
         // printRootList(min);
     }
 
@@ -197,8 +212,14 @@ class FibHeap {
     }
 
     ~FibHeap() {
+        while (min != nullptr) {
+            if (min == min->right) {
+                delete min;
+                min = nullptr;
+            } else
+                remove(min->right);
+        }
         n = 0;
-        delete[] min;
     }
 
     void insert(T val) {
@@ -251,9 +272,27 @@ class FibHeap {
         //       n);
         Node<T>* z = min;
         // for each child x of z, add x to the root list
+        // or just concatenate the child list of z to the root list, both works
+
+        // if (z->child != nullptr) {
+        //     Node<T>* cur = z->child;
+        //     while (true) {
+        //         cur->parent = nullptr;
+        //         z->degree--;
+        //         cur = cur->right;
+        //         if (cur == z->child) break;
+        //     }
+        //     concatenate(min, z->child);
+        // }
+
+        // trying the book-prescribed version here,
+        // that is promoting the children one by one
         if (z->child != nullptr) {
+            // debug("working with child of", z->val, z->degree);
             Node<T>* cur = z->child;
             while (true) {
+                // debug(cur->val, cur->left->val, cur->right->val,
+                // z->child->val);
                 Node<T>* upNext = cur->right;
                 cur->left = cur->right = cur;
                 cur->parent = nullptr;
