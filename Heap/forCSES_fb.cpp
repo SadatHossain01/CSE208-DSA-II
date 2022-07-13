@@ -251,21 +251,19 @@ class FibHeap {
         //       n);
         Node<T>* z = min;
         // for each child x of z, add x to the root list
-        // or just concatenate the child list of z to the root list
-        // first update their parents to nullptr though
         if (z->child != nullptr) {
-            // debug("working with child of", z->val, z->degree);
             Node<T>* cur = z->child;
             while (true) {
-                // debug(cur->val, cur->left->val, cur->right->val,
-                // z->child->val);
+                Node<T>* upNext = cur->right;
+                cur->left = cur->right = cur;
                 cur->parent = nullptr;
                 z->degree--;
-                cur = cur->right;
+                concatenate(min, cur);
+                cur = upNext;
                 if (cur == z->child) break;
             }
-            concatenate(min, z->child);
         }
+
         // remove z from the root list
         remove(z);
         if (z == z->right) {  // only one member in the root list

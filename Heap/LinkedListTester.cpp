@@ -55,6 +55,13 @@ void concatenate(Point* a, Point* b) {
     }
 }
 
+void remove(Point* x) {
+    Point* prev = x->left;
+    Point* next = x->right;
+    prev->right = next;
+    next->left = prev;
+}
+
 void print(Point* start) {
     cout << "start\n";
     Point* cur = start;
@@ -74,12 +81,18 @@ int main() {
     concatenate(head1, another);
     printList(head1);
 
-    Point* head2 = new Point(20, 30);
-    another = new Point(40, 50);
-    concatenate(another, new Point(60, 70));
-    concatenate(head1, another);
+    // Point* head2 = new Point(20, 30);
+    // another = new Point(40, 50);
+    // concatenate(another, new Point(60, 70));
+    // concatenate(head1, another);
+    // printList(head1);
+
+    // concatenate(head1, head2);
+    // print(head1);
+
+    remove(head1->left);
     printList(head1);
 
-    concatenate(head1, head2);
-    print(head1);
+    remove(head1->right);
+    printList(head1);
 }

@@ -10,13 +10,14 @@
 using namespace std;
 
 struct Edge {
-    int u, v, w;
+    int u, v;
+    long long w;
 };
 
-const int INF = 2e8;
+const long long INF = 2e17;
 int n_vertices, n_edges, k;
 vector<vector<Edge>> adj;
-vector<int> dist_bn, dist_fb;
+vector<long long> dist_bn, dist_fb;
 vector<int> len_bn, len_fb;
 vector<bool> visited;
 
@@ -39,7 +40,7 @@ void dijkstra_bn(int s) {
         visited[u] = true;
         for (auto& e : adj[u]) {
             int v = e.v;
-            int w = e.w;
+            long long w = e.w;
             // relaxation
             if (dist_bn[v] > dist_bn[u] + w) {
                 dist_bn[v] = dist_bn[u] + w;
@@ -48,7 +49,7 @@ void dijkstra_bn(int s) {
             }
         }
     }
-    // cerr << "Binary done\n";
+    cerr << "Binary done\n";
 }
 
 void dijkstra_fb(int s) {
@@ -70,7 +71,7 @@ void dijkstra_fb(int s) {
         visited[u] = true;
         for (auto& e : adj[u]) {
             int v = e.v;
-            int w = e.w;
+            long long w = e.w;
             // relaxation
             if (dist_fb[v] > dist_fb[u] + w) {
                 dist_fb[v] = dist_fb[u] + w;
@@ -79,12 +80,12 @@ void dijkstra_fb(int s) {
             }
         }
     }
-    // cerr << "Fibonacci done\n";
+    cerr << "Fibonacci done\n";
 }
 
 int main() {
     ifstream in1;
-    in1.open("large1.txt");
+    in1.open("large3.txt");
 
     in1 >> n_vertices >> n_edges;
     adj.resize(n_vertices + 2);
@@ -96,17 +97,18 @@ int main() {
 
     for (int i = 1; i <= n_edges; i++) {
         // assuming 0-based
-        int u, v, w;
+        int u, v;
+        long long w;
         in1 >> u >> v >> w;
         Edge e = {u, v, w};
         adj[u].push_back(e);
         e = {v, u, w};
-        adj[v].push_back(e);
+        // adj[v].push_back(e);
     }
     in1.close();
 
     ifstream in2;
-    in2.open("q_large1.txt");
+    in2.open("q_large3.txt");
     ofstream out;
     out.open("output.txt");
 
@@ -121,7 +123,7 @@ int main() {
             chrono::duration_cast<chrono::nanoseconds>(endTime - startTime)
                 .count() /
             (1000000.0);
-        // cout << "Binary: " << dist_bn[t] << " " << len_bn[t] << "\n";
+        cout << "Binary: " << dist_bn[t] << " " << len_bn[t] << "\n";
 
         startTime = chrono::high_resolution_clock::now();
         dijkstra_fb(s);
@@ -131,10 +133,10 @@ int main() {
                 .count() /
             (1000000.0);
         // debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
-        // cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
+        cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
 
-        out << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
-            << fibonacci_time << "ms\n";
+        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
+             << fibonacci_time << "ms\n";
     }
 
     in2.close();
