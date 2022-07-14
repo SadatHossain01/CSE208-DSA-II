@@ -69,6 +69,10 @@ class BinHeap {
     int maxSize, len;
 
     void map_swap(int idx1, int idx2) {
+        // if you swap values at two indices,
+        // gotta swap their map values as well
+        assert(idx1 >= 1 && idx1 <= len);
+        assert(idx2 >= 1 && idx2 <= len);
         int val1 = arr[idx1].u;
         int val2 = arr[idx2].u;
         mp[val1] = idx2;
@@ -127,6 +131,7 @@ class BinHeap {
         maxSize = sz;
         len = 0;
         arr = new T[maxSize + 1];
+        mp = new int[maxSize + 5];
     }
 
     BinHeap(const vector<T>& vec) {
@@ -145,10 +150,11 @@ class BinHeap {
         maxSize = other.maxSize;
         len = other.len;
         delete[] arr;
-        arr = new T[maxSize];
+        arr = new T[maxSize + 1];
         // mp.clear();
         // mp = other.mp;
         delete[] mp;
+        mp = new int[maxSize + 5];
         for (int i = 0; i < maxSize + 1; i++) arr[i] = other.arr[i];
         for (int i = 0; i < maxSize + 5; i++) mp[i] = other.mp[i];
     }
@@ -169,6 +175,7 @@ class BinHeap {
         // mp.clear();
         // mp = other.mp;
         delete[] mp;
+        mp = new int[maxSize + 5];
         for (int i = 0; i < maxSize + 1; i++) arr[i] = other.arr[i];
         for (int i = 0; i < maxSize + 5; i++) mp[i] = other.mp[i];
     }
@@ -204,6 +211,7 @@ class BinHeap {
         // int idx2 = searchHelp(x);
         // assert(idx != -1);
         int idx = mp[x.u];
+        assert(idx >= 1 && idx <= len);
         assert(newVal <= arr[idx].w);
         arr[idx].w = newVal;
         decreaseKeyHelp(idx, arr[idx]);
@@ -211,7 +219,7 @@ class BinHeap {
 
     void deleteMin() {
         assert(len > 0);
-        debug(arr[1]);
+        // debug(arr[1]);
         map_swap(1, len);
         swap(arr[1], arr[len]);
         // mp.erase(arr[len].u);
