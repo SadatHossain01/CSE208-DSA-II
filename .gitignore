@@ -11,3 +11,7 @@ Heap/my (1).txt
 Heap/expected.txt
 Heap/expected (1).txt
 Heap/output.txt
+*.txt
+Heap/test_appropriator.cpp
+Heap/test_appropriator.cpp
+Heap/With ExtactMin/output.txt

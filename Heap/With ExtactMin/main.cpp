@@ -52,33 +52,37 @@ void dijkstra_bn(int s) {
             }
         }
     }
+    // cerr << "Binary done\n";
 }
 
 void dijkstra_fb(int s) {
     // initialize-single-source-distance
     fill(dist_fb.begin(), dist_fb.end(), INF);
     fill(len_fb.begin(), len_fb.end(), INF);
-    fill(visited.begin(), visited.end(), false);
     dist_fb[s] = 0;
     len_fb[s] = 0;
-    FibHeap<Pair> fq;
-    fq.insert({s, 0});
-
+    FibHeap<Pair> fq(n_vertices);
+    // 0-based
+    for (int i = 0; i < n_vertices; i++) {
+        Pair p;
+        if (i == s)
+            p = {i, 0};
+        else
+            p = {i, INF};
+        fq.insert(p);
+    }
     while (!fq.isEmpty()) {
-        Pair p = fq.extractMin();
-        // debug("extraction done", fq.getSize());
-        int u = p.u;
-        // debug(p.u, p.w, visited[p.u]);
-        if (visited[u]) continue;
-        visited[u] = true;
-        for (auto& e : adj[u]) {
+        // extract-min
+        Pair cur = fq.extractMin();
+        // debug(cur);
+        int u = cur.u;
+        for (const Edge& e : adj[u]) {
             int v = e.v;
-            long long w = e.w;
             // relaxation
-            if (dist_fb[v] > dist_fb[u] + w) {
-                dist_fb[v] = dist_fb[u] + w;
+            if (dist_fb[v] > dist_fb[u] + e.w) {
+                fq.decreaseKey({v, dist_fb[v]}, dist_fb[u] + e.w);
+                dist_fb[v] = dist_fb[u] + e.w;
                 len_fb[v] = len_fb[u] + 1;
-                fq.insert({v, dist_fb[v]});
             }
         }
     }
@@ -88,7 +92,7 @@ void dijkstra_fb(int s) {
 int main() {
     // undirected
     ifstream in1;
-    in1.open("large1.txt");
+    in1.open("test_2_graph.txt");
 
     in1 >> n_vertices >> n_edges;
     adj.resize(n_vertices + 2);
@@ -112,7 +116,7 @@ int main() {
     in1.close();
 
     ifstream in2;
-    in2.open("q_large1.txt");
+    in2.open("test_2_query.txt");
     ofstream out;
     out.open("output.txt");
 
@@ -139,8 +143,8 @@ int main() {
         // debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
         cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
 
-        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
-             << fibonacci_time << "ms\n";
+        out << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
+            << fibonacci_time << "ms\n";
     }
 
     in2.close();

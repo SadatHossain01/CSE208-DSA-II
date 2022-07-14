@@ -161,7 +161,7 @@ class BinHeap {
 
     void deleteMin() {
         assert(len > 0);
-        debug(arr[1]);
+        // debug(arr[1]);
         map_swap(1, len);
         swap(arr[1], arr[len]);
         // mp.erase(arr[len].u);

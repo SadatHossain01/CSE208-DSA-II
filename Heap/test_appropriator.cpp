@@ -5,7 +5,7 @@ int main() {
     ifstream i1;
     i1.open("test9.txt");
     ofstream o;
-    o.open("large3.txt");
+    o.open("short3.txt");
     int n, m;
     i1 >> n >> m;
     o << n << " " << m << "\n";

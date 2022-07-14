@@ -39,6 +39,9 @@ void _print(T t, V... v) {
     if (sizeof...(v)) cerr << ", ";
     _print(v...);
 }
+void __print(const Pair& x) {
+    cerr << '\"' << "u: " << x.u << ", w: " << x.w << '\"';
+}
 #ifdef LOCAL
 #define debug(x...)               \
     cerr << "[" << #x << "] = ["; \
@@ -76,21 +79,33 @@ template <typename T>
 class FibHeap {
    private:
     Node<T>* min;
-    int n;
+    Node<T>** mp;
+    int n, maxSize;
+
+    void printNode(Node<T>* cur) {
+#ifndef LOCAL
+        return;
+#endif
+        if (cur == nullptr) {
+            debug("null pointer");
+        } else {
+            debug(cur->left->val, cur->val, cur->right->val, cur->degree);
+        }
+    }
 
     void printRootList(Node<T>* start) {
 #ifndef LOCAL
         return;
 #endif
         Node<T>* cur = start;
-        debug("printing started");
+        debug("Printing Started");
         debug(min->val, n);
         while (true) {
-            debug(cur->val, cur->left->val, cur->right->val, cur->degree);
+            debug(cur->left->val, cur->val, cur->right->val, cur->degree);
             cur = cur->right;
             if (cur == start) break;
         }
-        debug("printing done");
+        debug("Printing Done");
     }
 
     void concatenate(Node<T>* a, Node<T>* b) {
@@ -98,28 +113,16 @@ class FibHeap {
         assert(b->left != nullptr && b->right != nullptr);
         if (a == a->left) swap(a, b);
         if (b == b->left) {
-            // debug("single concatenation, before:");
-            // debug(a->val, a->left->val, a->right->val, a->degree);
-            // debug(b->val, b->left->val, b->right->val, b->degree);
             auto tmp = a->right;
             a->right = b;
             b->left = a;
             b->right = tmp;
             tmp->left = b;
-            // debug("after");
-            // debug(a->val, a->left->val, a->right->val, a->degree);
-            // debug(b->val, b->left->val, b->right->val, b->degree);
         } else {
-            // debug("double concatenation, before"");
-            // debug(a->val, a->left->val, a->right->val, a->degree);
-            // debug(b->val, b->left->val, b->right->val, b->degree);
             a->right->left = b->left;
             b->left->right = a->right;
             a->right = b;
             b->left = a;
-            // debug("after");
-            // debug(a->val, a->left->val, a->right->val, a->degree);
-            // debug(b->val, b->left->val, b->right->val, b->degree);
         }
     }
 
@@ -131,7 +134,7 @@ class FibHeap {
     }
 
     void link(Node<T>* y, Node<T>* x) {
-        // debug("making ", y->val, " child of ", x->val);
+        // debug("Making ", y->val, " a child of ", x->val);
         remove(y);
         // make y a child of x
         y->parent = x;
@@ -140,11 +143,9 @@ class FibHeap {
         if (prevChild == nullptr) {
             x->child = y;
         } else {
-            // debug(prevChild->val, prevChild->left->val,
-            // prevChild->right->val);
+            // printNode(prevChild);
             concatenate(prevChild, y);
-            // debug(prevChild->val, prevChild->left->val,
-            // prevChild->right->val); debug(y->left->val, y->right->val);
+            // printNode(prevChild);
         }
         // increment degree[x], clear mark[y]
         x->degree++;
@@ -152,7 +153,7 @@ class FibHeap {
     }
 
     void consolidate() {
-        // debug("consolidation start");
+        debug("Consolidation Start");
         const int lg = __lg(n) + 2;
         Node<T>** A = new Node<T>*[lg];
         for (int i = 0; i < lg; i++) A[i] = nullptr;
@@ -161,18 +162,20 @@ class FibHeap {
         // fix the min first
         Node<T>* w = min;
         Node<T>* start = w;
-        // debug("consolidation while start");
+        // debug("Consolidation while 1 Start");
         while (true) {
             if (w->val < min->val) min = w;
             w = w->right;
             if (w == start) break;
         }
+        // debug("Consolidation while 1 End");
 
+        // debug("Consolidation while 2 Start");
         w = min;
         start = w;
         while (true) {
             Node<T>* x = w;
-            // debug(x->val, x->left->val, x->right->val, start->val);
+            // debug(x->left->val, x->val, x->right->val, start->val);
             int d = x->degree;
             if (A[d] != nullptr && A[d] == x) break;
             while (A[d] != nullptr) {
@@ -190,6 +193,8 @@ class FibHeap {
             w = w->right;
             if (w == start) break;
         }
+        // debug("Consolidation while 2 End");
+
         for (int i = 0; i < lg; i++) {
             if (A[i] == nullptr) continue;
             if (min == nullptr)
@@ -198,17 +203,19 @@ class FibHeap {
                 min = A[i];
         }
 
-        // debug("consolidation while end");
-        assert(min != nullptr);
+        // assert(min != nullptr);
         delete[] A;
-        // debug("consolidation end");
+        debug("Consolidation End");
         // printRootList(min);
     }
 
    public:
-    FibHeap() {
+    FibHeap(int size) {
         n = 0;
         min = nullptr;
+        maxSize = size;
+        mp = new Node<T>*[maxSize + 10];
+        for (int i = 0; i < maxSize + 10; i++) mp[i] = nullptr;
     }
 
     ~FibHeap() {
@@ -220,11 +227,17 @@ class FibHeap {
                 remove(min->right);
         }
         n = 0;
+        for (int i = 0; i < maxSize + 10; i++) {
+            if (mp[i] != nullptr) delete mp[i];
+        }
+        delete[] mp;
     }
 
     void insert(T val) {
         Node<T>* x = new Node<T>(val);
         x->left = x->right = x;
+        // assert(val.u < maxSize + 10);
+        mp[val.u] = x;
         // concatenating the root list H with the root list containing x
         // and updating the min
         if (min == nullptr) {
@@ -233,7 +246,6 @@ class FibHeap {
             concatenate(min, x);
             if (x->val < min->val) min = x;
         }
-        // assert(min != nullptr);
         n++;
         // debug("insertion", val, n);
         // printRootList(min);
@@ -248,51 +260,35 @@ class FibHeap {
 
     bool isEmpty() const { return n == 0; }
 
-    FibHeap<T>* unite_heap(FibHeap<T>* h1, FibHeap<T>* h2) {
-        FibHeap<T>* h = new FibHeap<T>();
-        if (h1->min == nullptr && h2->min == nullptr) return h;
-        if (h1->min == nullptr) swap(h1, h2);
-        h->min = h1->min;
-        if (h2->min == nullptr) {
-            h->n = h1->n;
-            delete h1;
-        } else {
-            concatenate(h->min, h2->min);
-            h->n = h1->n + h2->n;
-            if (h2->min->val < h1->min) h->min = h2->min;
-            delete h1;
-            delete h2;
-        }
-        return h;
-    }
-
     T extractMin() {
         assert(n > 0 && min != nullptr);
-        // debug("before extraction", min->val, min->left->val, min->right->val,
-        //       n);
+        debug("before extraction", min->left->val, min->val, min->right->val,
+              n);
+
         Node<T>* z = min;
+
         // for each child x of z, add x to the root list
         // or just concatenate the child list of z to the root list, both works
 
-        // if (z->child != nullptr) {
-        //     Node<T>* cur = z->child;
-        //     while (true) {
-        //         cur->parent = nullptr;
-        //         z->degree--;
-        //         cur = cur->right;
-        //         if (cur == z->child) break;
-        //     }
-        //     concatenate(min, z->child);
-        // }
+        // doing all at once
+        //  if (z->child != nullptr) {
+        //      Node<T>* cur = z->child;
+        //      while (true) {
+        //          cur->parent = nullptr;
+        //          z->degree--;
+        //          cur = cur->right;
+        //          if (cur == z->child) break;
+        //      }
+        //      concatenate(min, z->child);
+        //  }
 
-        // trying the book-prescribed version here,
+        // the book-prescribed version,
         // that is promoting the children one by one
         if (z->child != nullptr) {
-            // debug("working with child of", z->val, z->degree);
+            debug("Working with child of", z->val, z->degree, z->child->val);
             Node<T>* cur = z->child;
             while (true) {
-                // debug(cur->val, cur->left->val, cur->right->val,
-                // z->child->val);
+                debug(cur->left->val, cur->val, cur->right->val, z->child->val);
                 Node<T>* upNext = cur->right;
                 cur->left = cur->right = cur;
                 cur->parent = nullptr;
@@ -312,13 +308,58 @@ class FibHeap {
             consolidate();
         }
         n--;
-        // debug("extraction done", z->val);
-        // if (min != nullptr) {
-        //     debug("after extraction", min->val, min->left->val,
-        //     min->right->val,
-        //           n);
-        // }
-        return z->val;
+        debug("Extraction done", z->val);
+        if (min != nullptr) {
+            debug("After Extraction", min->left->val, min->val, min->right->val,
+                  n);
+        }
+        T ret = z->val;
+        delete z;
+        mp[ret.u] = nullptr;
+        return ret;
+    }
+
+    void cut(Node<T>* x, Node<T>* y) {
+        // remove x from the child list of y
+        if (x->right == x)
+            y->child = nullptr;
+        else {
+            y->child = x->right;  // what is this behaviour bro?
+            remove(x);
+        }
+        y->degree--;
+        // add x to the root list
+        x->left = x->right = x;
+        concatenate(min, x);
+        x->parent = nullptr;
+        x->marked = false;
+    }
+
+    void cascadingCut(Node<T>* y) {
+        // debug("Cascading Cut Start", y->val);
+        Node<T>* z = y->parent;
+        if (z != nullptr) {
+            if (y->marked == false)
+                y->marked = true;
+            else {
+                cut(y, z);
+                cascadingCut(z);
+            }
+        }
+        debug("Cascading Cut End", y->val);
+    }
+
+    void decreaseKey(const T& p, long long newVal) {
+        Node<T>* x = mp[p.u];
+        assert(x != nullptr);
+        assert(newVal <= x->val.w);
+        x->val.w = newVal;
+        Node<T>* y = x->parent;
+        if (y != nullptr && x->val < y->val) {
+            cut(x, y);
+            cascadingCut(y);
+        }
+        if (x->val < min->val) min = x;
     }
 };
 
@@ -326,36 +367,39 @@ void dijkstra_fb(int s) {
     // initialize-single-source-distance
     fill(dist_fb.begin(), dist_fb.end(), INF);
     fill(len_fb.begin(), len_fb.end(), INF);
-    fill(visited.begin(), visited.end(), false);
     dist_fb[s] = 0;
     len_fb[s] = 0;
-    FibHeap<Pair> fq;
-    fq.insert({s, 0});
-
+    FibHeap<Pair> fq(n_vertices);
+    // 0-based
+    for (int i = 0; i < n_vertices; i++) {
+        Pair p;
+        if (i == s)
+            p = {i, 0};
+        else
+            p = {i, INF};
+        fq.insert(p);
+    }
     while (!fq.isEmpty()) {
-        Pair p = fq.extractMin();
-        // debug("extraction done", fq.getSize());
-        int u = p.u;
-        // debug(p.u, p.w, visited[p.u]);
-        if (visited[u]) continue;
-        visited[u] = true;
-        for (auto& e : adj[u]) {
+        // extract-min
+        Pair cur = fq.extractMin();
+        // debug(cur);
+        int u = cur.u;
+        for (const Edge& e : adj[u]) {
             int v = e.v;
-            ll w = e.w;
             // relaxation
-            if (dist_fb[v] > dist_fb[u] + w) {
-                dist_fb[v] = dist_fb[u] + w;
+            if (dist_fb[v] > dist_fb[u] + e.w) {
+                fq.decreaseKey({v, dist_fb[v]}, dist_fb[u] + e.w);
+                dist_fb[v] = dist_fb[u] + e.w;
                 len_fb[v] = len_fb[u] + 1;
-                fq.insert({v, dist_fb[v]});
             }
         }
     }
-    // cerr << "Fibonacci done\n";
+    cerr << "Fibonacci done\n";
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    // ios_base::sync_with_stdio(false);
+    // cin.tie(NULL);
 
     cin >> n_vertices >> n_edges;
 
