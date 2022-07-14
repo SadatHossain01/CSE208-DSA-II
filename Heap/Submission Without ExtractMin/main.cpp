@@ -34,7 +34,7 @@ void dijkstra_bn(int s) {
     while (!bq.isEmpty()) {
         Pair p = bq.getMin();
         int u = p.u;
-        // debug(p.u, p.w);
+        // debug(p);
         bq.deleteMin();
         if (visited[u]) continue;
         visited[u] = true;
@@ -66,7 +66,7 @@ void dijkstra_fb(int s) {
         Pair p = fq.extractMin();
         // debug("extraction done", fq.getSize());
         int u = p.u;
-        // debug(p.u, p.w, visited[p.u]);
+        // debug(p, visited[p.u]);
         if (visited[u]) continue;
         visited[u] = true;
         for (auto& e : adj[u]) {

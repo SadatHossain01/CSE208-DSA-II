@@ -14,7 +14,7 @@ struct Edge {
     long long w;
 };
 
-const long long INF = 2e17;
+const long long INF = 2e16;
 int n_vertices, n_edges, k;
 vector<vector<Edge>> adj;
 vector<long long> dist_bn, dist_fb;
@@ -25,31 +25,33 @@ void dijkstra_bn(int s) {
     // initialize-single-source-distance
     fill(dist_bn.begin(), dist_bn.end(), INF);
     fill(len_bn.begin(), len_bn.end(), INF);
-    fill(visited.begin(), visited.end(), false);
     dist_bn[s] = 0;
     len_bn[s] = 0;
-    BinHeap<Pair> bq;
-    bq.insert({s, 0});
-
-    while (!bq.isEmpty()) {
-        Pair p = bq.getMin();
-        int u = p.u;
-        // debug(p.u, p.w);
-        bq.deleteMin();
-        if (visited[u]) continue;
-        visited[u] = true;
-        for (auto& e : adj[u]) {
+    vector<Pair> v(n_vertices);
+    // 0-based
+    for (int i = 0; i < n_vertices; i++) {
+        if (i == s)
+            v[i] = {i, 0};
+        else
+            v[i] = {i, INF};
+    }
+    BinHeap<Pair> pq(v);
+    while (!pq.isEmpty()) {
+        // extract-min
+        Pair cur = pq.getMin();
+        // debug(cur);
+        pq.deleteMin();
+        int u = cur.u;
+        for (const Edge& e : adj[u]) {
             int v = e.v;
-            long long w = e.w;
             // relaxation
-            if (dist_bn[v] > dist_bn[u] + w) {
-                dist_bn[v] = dist_bn[u] + w;
+            if (dist_bn[v] > dist_bn[u] + e.w) {
+                pq.decreaseKey({v, dist_bn[v]}, dist_bn[u] + e.w);
+                dist_bn[v] = dist_bn[u] + e.w;
                 len_bn[v] = len_bn[u] + 1;
-                bq.insert({v, dist_bn[v]});
             }
         }
     }
-    // cerr << "Binary done\n";
 }
 
 void dijkstra_fb(int s) {
@@ -86,7 +88,7 @@ void dijkstra_fb(int s) {
 int main() {
     // undirected
     ifstream in1;
-    in1.open("test_2_graph.txt");
+    in1.open("large1.txt");
 
     in1 >> n_vertices >> n_edges;
     adj.resize(n_vertices + 2);
@@ -110,7 +112,7 @@ int main() {
     in1.close();
 
     ifstream in2;
-    in2.open("test_2_query.txt");
+    in2.open("q_large1.txt");
     ofstream out;
     out.open("output.txt");
 
@@ -137,8 +139,8 @@ int main() {
         // debug(len_fb[t], len_bn[t], dist_fb[t], dist_bn[t]);
         cout << "Fibonacci: " << dist_fb[t] << " " << len_fb[t] << "\n";
 
-        out << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
-            << fibonacci_time << "ms\n";
+        cout << len_bn[t] << " " << dist_bn[t] << " " << binary_time << "ms "
+             << fibonacci_time << "ms\n";
     }
 
     in2.close();
