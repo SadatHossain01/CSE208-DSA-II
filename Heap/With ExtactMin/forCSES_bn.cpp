@@ -64,8 +64,8 @@ template <typename T>
 class BinHeap {
    private:
     T* arr;
-    unordered_map<int, int>
-        mp;  // for keeping track of indices so that O(n) search is not needed
+    // unordered_map<int, int> mp;
+    int* mp;  // for keeping track of indices so that O(n) search is not needed
     int maxSize, len;
 
     void map_swap(int idx1, int idx2) {
@@ -132,6 +132,7 @@ class BinHeap {
     BinHeap(const vector<T>& vec) {
         maxSize = vec.size();
         arr = new T[maxSize + 1];
+        mp = new int[maxSize + 5];
         for (int i = 0; i < maxSize; i++) {
             arr[i + 1] = vec[i];
             mp[vec[i].u] = i + 1;
@@ -145,14 +146,17 @@ class BinHeap {
         len = other.len;
         delete[] arr;
         arr = new T[maxSize];
-        mp.clear();
-        mp = other.mp;
-        for (int i = 0; i < maxSize; i++) arr[i] = other.arr[i];
+        // mp.clear();
+        // mp = other.mp;
+        delete[] mp;
+        for (int i = 0; i < maxSize + 1; i++) arr[i] = other.arr[i];
+        for (int i = 0; i < maxSize + 5; i++) mp[i] = other.mp[i];
     }
 
     ~BinHeap() {
         delete[] arr;
-        mp.clear();
+        // mp.clear();
+        delete[] mp;
         len = 0;
     }
 
@@ -162,18 +166,24 @@ class BinHeap {
         len = other.len;
         delete[] arr;
         arr = new T[maxSize];
-        mp.clear();
-        mp = other.mp;
-        for (int i = 0; i < maxSize; i++) arr[i] = other.arr[i];
+        // mp.clear();
+        // mp = other.mp;
+        delete[] mp;
+        for (int i = 0; i < maxSize + 1; i++) arr[i] = other.arr[i];
+        for (int i = 0; i < maxSize + 5; i++) mp[i] = other.mp[i];
     }
 
     void insert(const T& x) {
         if (len == maxSize) {
             maxSize *= 2;
             T* another = new T[maxSize + 1];
-            for (int i = 0; i <= len; i++) another[i] = arr[i];
+            int* anotherMp = new int[maxSize + 5];
+            for (int i = 0; i < maxSize + 1; i++) another[i] = arr[i];
+            for (int i = 0; i < maxSize + 5; i++) anotherMp[i] = mp[i];
             delete[] arr;
+            delete[] mp;
             arr = another;
+            mp = anotherMp;
         }
         arr[++len] = x;
         mp[x.u] = len;
@@ -204,7 +214,7 @@ class BinHeap {
         debug(arr[1]);
         map_swap(1, len);
         swap(arr[1], arr[len]);
-        mp.erase(arr[len].u);
+        // mp.erase(arr[len].u);
         len--;
         MIN_HEAPIFY(1);
     }
