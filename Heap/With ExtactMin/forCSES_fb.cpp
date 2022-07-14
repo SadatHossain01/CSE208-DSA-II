@@ -271,33 +271,31 @@ class FibHeap {
         // or just concatenate the child list of z to the root list, both works
 
         // doing all at once
-        //  if (z->child != nullptr) {
-        //      Node<T>* cur = z->child;
-        //      while (true) {
-        //          cur->parent = nullptr;
-        //          z->degree--;
-        //          cur = cur->right;
-        //          if (cur == z->child) break;
-        //      }
-        //      concatenate(min, z->child);
-        //  }
+        if (z->child != nullptr) {
+            Node<T>* cur = z->child;
+            while (true) {
+                cur->parent = nullptr;
+                z->degree--;
+                cur = cur->right;
+                if (cur == z->child) break;
+            }
+            concatenate(min, z->child);
+        }
 
         // the book-prescribed version,
         // that is promoting the children one by one
-        if (z->child != nullptr) {
-            debug("Working with child of", z->val, z->degree, z->child->val);
-            Node<T>* cur = z->child;
-            while (true) {
-                debug(cur->left->val, cur->val, cur->right->val, z->child->val);
-                Node<T>* upNext = cur->right;
-                cur->left = cur->right = cur;
-                cur->parent = nullptr;
-                z->degree--;
-                concatenate(min, cur);
-                cur = upNext;
-                if (cur == z->child) break;
-            }
-        }
+        // if (z->child != nullptr) {
+        //     debug("Working with child of", z->val, z->degree, z->child->val);
+        //     Node<T>* cur = z->child;
+        //     while (true) {
+        //         debug(cur->left->val, cur->val, cur->right->val,
+        //         z->child->val); Node<T>* upNext = cur->right; cur->left =
+        //         cur->right = cur; cur->parent = nullptr; z->degree--;
+        //         concatenate(min, cur);
+        //         cur = upNext;
+        //         if (cur == z->child) break;
+        //     }
+        // }
 
         // remove z from the root list
         remove(z);
