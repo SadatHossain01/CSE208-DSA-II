@@ -1,61 +1,6 @@
-#include <bits/stdc++.h>
-using namespace std;
+#pragma once
 
-typedef long long ll;
-
-struct Edge {
-    int u, v;
-    ll w;
-};
-
-struct Pair {
-    int u;
-    ll w;
-    bool operator<(const Pair& other) const { return w < other.w; }
-    bool operator<=(const Pair& other) const { return w <= other.w; }
-    bool operator>(const Pair& other) const { return w > other.w; }
-    bool operator>=(const Pair& other) const { return w >= other.w; }
-    bool operator==(const Pair& other) const {
-        return u == other.u && w == other.w;
-    }
-    Pair operator-(int dx) const {
-        Pair ret = {u, w - dx};
-        return ret;
-    }
-    Pair& operator=(const Pair& other) {
-        u = other.u;
-        w = other.w;
-        return *this;
-    }
-};
-
-void __print(int x) { cerr << x; }
-void __print(long long x) { cerr << x; }
-void _print() { cerr << "]\n"; }
-void __print(const string& x) { cerr << '\"' << x << '\"'; }
-template <typename T, typename... V>
-void _print(T t, V... v) {
-    __print(t);
-    if (sizeof...(v)) cerr << ", ";
-    _print(v...);
-}
-void __print(const Pair& x) {
-    cerr << '\"' << "u: " << x.u << ", w: " << x.w << '\"';
-}
-#ifdef LOCAL
-#define debug(x...)               \
-    cerr << "[" << #x << "] = ["; \
-    _print(x)
-#else
-#define debug(x...)
-#endif
-
-const ll INF = 2e16;
-int n_vertices, n_edges;
-vector<vector<Edge>> adj;
-vector<ll> dist_fb;
-vector<int> len_fb;
-vector<bool> visited;
+#include "header.h"
 
 template <typename T>
 struct Node {
@@ -177,13 +122,7 @@ class FibHeap {
             Node<T>* x = w;
             // debug(x->left->val, x->val, x->right->val, start->val);
             int d = x->degree;
-            w = w->right;
-            if (A[d] != nullptr && A[d] == x) {
-                if (w == start)
-                    break;
-                else
-                    continue;
-            }
+            if (A[d] != nullptr && A[d] == x) break;
             while (A[d] != nullptr) {
                 Node<T>* y = A[d];  // another node with same degree as x
                 if (y->val < x->val) swap(x, y);
@@ -196,6 +135,7 @@ class FibHeap {
                 d++;
             }
             A[d] = x;
+            w = w->right;
             if (w == start) break;
         }
         // debug("Consolidation while 2 End");
@@ -370,64 +310,3 @@ class FibHeap {
         if (x->val < min->val) min = x;
     }
 };
-
-void dijkstra_fb(int s) {
-    // initialize-single-source-distance
-    fill(dist_fb.begin(), dist_fb.end(), INF);
-    fill(len_fb.begin(), len_fb.end(), INF);
-    dist_fb[s] = 0;
-    len_fb[s] = 0;
-    FibHeap<Pair> fq(n_vertices);
-    // 0-based
-    for (int i = 0; i < n_vertices; i++) {
-        Pair p;
-        if (i == s)
-            p = {i, 0};
-        else
-            p = {i, INF};
-        fq.insert(p);
-    }
-    while (!fq.isEmpty()) {
-        // extract-min
-        Pair cur = fq.extractMin();
-        // debug(cur);
-        int u = cur.u;
-        for (const Edge& e : adj[u]) {
-            int v = e.v;
-            // relaxation
-            if (dist_fb[v] > dist_fb[u] + e.w) {
-                fq.decreaseKey({v, dist_fb[v]}, dist_fb[u] + e.w);
-                dist_fb[v] = dist_fb[u] + e.w;
-                len_fb[v] = len_fb[u] + 1;
-            }
-        }
-    }
-    cerr << "Fibonacci done\n";
-}
-
-int main() {
-    // ios_base::sync_with_stdio(false);
-    // cin.tie(NULL);
-
-    cin >> n_vertices >> n_edges;
-
-    adj.resize(n_vertices + 2);
-    dist_fb.resize(n_vertices + 2);
-    len_fb.resize(n_vertices + 2);
-    visited.resize(n_vertices + 2);
-
-    for (int i = 0; i < n_edges; i++) {
-        int a, b, c;
-        cin >> a >> b >> c;
-        a--;
-        b--;
-        Edge e = {a, b, c};
-        adj[a].push_back(e);
-    }
-
-    dijkstra_fb(0);
-
-    for (int i = 0; i < n_vertices; i++) {
-        cout << dist_fb[i] << " ";
-    }
-}
