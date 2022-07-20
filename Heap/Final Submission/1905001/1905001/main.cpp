@@ -24,7 +24,7 @@ vector<bool> visited;
 void dijkstra_bn(int s) {
     // initialize-single-source-distance
     fill(dist_bn.begin(), dist_bn.end(), INF);
-    fill(len_bn.begin(), len_bn.end(), INF);
+    fill(len_bn.begin(), len_bn.end(), 2e8);
     dist_bn[s] = 0;
     len_bn[s] = 0;
     vector<Pair> v(n_vertices);
@@ -58,7 +58,7 @@ void dijkstra_bn(int s) {
 void dijkstra_fb(int s) {
     // initialize-single-source-distance
     fill(dist_fb.begin(), dist_fb.end(), INF);
-    fill(len_fb.begin(), len_fb.end(), INF);
+    fill(len_fb.begin(), len_fb.end(), 2e8);
     dist_fb[s] = 0;
     len_fb[s] = 0;
     FibHeap<Pair> fq(n_vertices);
