@@ -27,6 +27,16 @@ class RBT {
    private:
     Node<T>* root;
 
+    Node<T>* tree_minimum(Node<T>* x) {
+        while (x->left != nullptr) x = x->left;
+        return x;
+    }
+
+    Node<T>* tree_maximum(Node<T>* x) {
+        while (x->right != nullptr) x = x->right;
+        return x;
+    }
+
     Node<T>* successor(Node<T>* x) {
         if (x->right != nullptr) return tree_minimum(x->right);
         Node<T>* y = x->parent;
@@ -104,6 +114,14 @@ class RBT {
     }
 
    public:
+    Node<T>* tree_search(Node<T>* x, T k) {
+        while (x != nullptr && k != x->key) {
+            if (k < x->key) x = x->left;
+            else x = x->right;
+        }
+        return x;
+    }
+
     void insert(Node<T>* z) {
         Node<T>* y = nullptr;
         Node<T>* x = root;
