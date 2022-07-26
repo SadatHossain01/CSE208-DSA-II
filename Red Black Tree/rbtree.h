@@ -29,7 +29,7 @@ struct Node {
         size = 1;
     }
 
-    void print(bool isNIL) {
+    void print(bool isNIL = false) {
 #ifndef LOCAL
         return;
 #endif
@@ -157,6 +157,7 @@ class RBT {
             }
         }
         root->color = black;
+        debug("insert fixup done");
     }
 
     void insert_help(Node<T>* z) {
@@ -165,7 +166,6 @@ class RBT {
         while (x != NIL) {
             debug("insert loop");
             y = x;
-            x->size++;
             if (z->key < x->key) x = x->left;
             else x = x->right;
         }
@@ -175,8 +175,21 @@ class RBT {
         else y->right = z;
         z->left = z->right = NIL;
         z->color = red;
+
+        Node<T>* cur = z->parent;
+        while (cur != NIL) {
+            cur->size++;
+            cur = cur->parent;
+        }
         // it never performs more than two rotations
         insert_fixup(z);
+    }
+
+    void transplant(Node<T>* x, Node<T>* y) {
+        if (x->parent == NIL) root = y;
+        else if (x == x->parent->left) x->parent->left = y;
+        else x->parent->right = y;
+        y->parent = x->parent;
     }
 
     void remove_fixup(Node<T>* x) {
@@ -232,31 +245,44 @@ class RBT {
             }
         }
         x->color = black;
+        debug("remove fixup done");
     }
 
     void remove_help(Node<T>* z) {
-        Node<T>* x;
-        Node<T>* y;
-        if (z->left == NIL || z->right == NIL)  // z is an external node
-            y = z;
-        else y = tree_successor(z);  // or tree_predecessor(z)
-        if (y->left != NIL) x = y->left;
-        else x = z->right;
-        x->parent = y->parent;
-        if (y->parent == NIL) root = x;
-        else if (y == y->parent->left) y->parent->left = x;
-        else y->parent->right = x;
-        if (y != z) z->key = y->key;
-
-        // decrementing the tree size counts
-        Node<T>* cur = y;
+        Node<T>* y = z;
+        Node<T>* x = nullptr;
+        bool y_original_color = y->color;
+        if (z->left == NIL) {
+            x = z->right;
+            transplant(z, z->right);
+        } else if (z->right == NIL) {
+            x = z->left;
+            transplant(z, z->left);
+        } else {
+            y = tree_minimum(z->right);
+            y_original_color = y->color;
+            x = y->right;
+            if (y->parent == z) x->parent = y;
+            else {
+                transplant(y, y->right);
+                y->right = z->right;
+                y->right->parent = y;
+            }
+            transplant(z, y);
+            y->left = z->left;
+            y->left->parent = y;
+            y->color = z->color;
+            y->size = z->size;
+        }
+        root->print();
+        Node<T>* cur = x->parent;
         while (cur != NIL) {
             debug("delete loop");
+            cur->print();
             cur->size--;
             cur = cur->parent;
         }
-
-        if (y->color == black) remove_fixup(x);
+        if (y_original_color == black) remove_fixup(x);
     }
 
     int lower_count_help(Node<T>* x, const T& k) {

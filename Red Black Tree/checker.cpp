@@ -5,7 +5,7 @@ set<int> nums;
 
 int main() {
     ifstream in;
-    in.open("in.txt");
+    in.open("in (1).txt");
     ofstream out;
     out.open("result.txt");
     int n;

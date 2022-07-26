@@ -8,9 +8,12 @@ int main() {
     RBT<int> tree;
     ifstream in;
     in.open("in.txt");
+    ofstream out;
+    out.open("out.txt");
     int n;
     in >> n;
-    cout << n << endl;
+    // cout << n << endl;
+    out << n << endl;
     for (int tc = 1; tc <= n; tc++) {
         int e, x;
         in >> e >> x;
@@ -29,8 +32,10 @@ int main() {
             res = tree.lower_count(x);
         }
         // cout << tc << endl;
-        cout << e << " " << x << " " << res << endl;
+        // cout << e << " " << x << " " << res << endl;
+        out << e << " " << x << " " << res << endl;
     }
-    // cout << "done" << endl;
+    in.close();
+    out.close();
     return 0;
 }
