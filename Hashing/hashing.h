@@ -96,7 +96,10 @@ class SeparateChaining {
 
     Pair* search_help(const string& s) {
         int h = hash1(s) % m;
-        if (hashTable[h] == nullptr) return nullptr;
+        if (hashTable[h] == nullptr) {
+            // debug("head null for search", s);
+            return nullptr;
+        }
         Pair* cur = hashTable[h];
         while (cur != nullptr) {
             if (cur->key == s) return cur;
@@ -112,19 +115,6 @@ class SeparateChaining {
         for (int i = 0; i < m; i++) hashTable[i] = nullptr;
     }
 
-    ~SeparateChaining() {
-        for (int i = 0; i < m; i++) {
-            if (hashTable[i] == nullptr) continue;
-            while (hashTable[i]->next != nullptr) {
-                Pair* temp = hashTable[i]->next;
-                temp->prev->next = temp->next;
-                temp->next->prev = temp->prev;
-                delete temp;
-            }
-        }
-        delete hashTable;
-    }
-
     int getSize() { return size; }
 
     bool search(const string& s) {
@@ -136,23 +126,33 @@ class SeparateChaining {
     void insert(const string& s, int val) {
         // first check if this string is already in the hash table
         Pair* ret = search_help(s);
-        if (ret != nullptr) return;  // already present
+        if (ret != nullptr) {
+            // debug("already present before insertion");
+            return;  // already present
+        }
 
         int h = hash1(s) % m;
-        Pair* cur = hashTable[h];
         Pair* toBeInserted = new Pair(s, val);
-        if (cur == nullptr) cur = toBeInserted;
-        else {
-            while (cur->next != nullptr) cur = cur->next;
-            cur->next = toBeInserted;
-            toBeInserted->prev = cur;
+        if (hashTable[h] == nullptr) {
+            // debug("head null");
+            hashTable[h] = toBeInserted;
+        } else {
+            // debug("head not null");
+            toBeInserted->next = hashTable[h];
+            hashTable[h]->prev = toBeInserted;
+            hashTable[h] = toBeInserted;
         }
+        // debug("insertion done", s);
         size++;
     }
 
     void remove(const string& s) {
+        // debug("deletion started", s);
         Pair* ret = search_help(s);
-        if (ret == nullptr) return;  // not present
+        if (ret == nullptr) {
+            // debug("not present to delete for separate chaining");
+            return;  // not present
+        }
 
         int h = hash1(s) % m;
         if (ret == hashTable[h]) {  // in head
@@ -164,6 +164,7 @@ class SeparateChaining {
             if (after != nullptr) after->prev = before;
             before->next = after;  // as ret is not head, so before is surely not null
         }
+        // debug("deletion done", s);
         delete ret;
     }
 };
@@ -245,7 +246,10 @@ class Probing {
     void remove(const string& s) {
         int temp = 0;
         int ret = search(s, temp);
-        if (ret == -1) return;  // not present
+        if (ret == -1) {
+            debug("not present to delete for probing", to_string(p));
+            return;  // not present
+        }
         hashTable[ret].key = "";
         hashTable[ret].value = -1;
         deleted[ret] = true;

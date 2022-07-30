@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <numeric>
 #include <vector>
 
 #include "hashing.h"
@@ -27,12 +29,16 @@ void doSeparateChaining() {
         for (auto& s : strings) sc.insert(s, sc.getSize() + 1);
         debug("insertion done", lf);
 
+        vector<int> random_vector(needed);
+        iota(random_vector.begin(), random_vector.end(), 0);
+
         // search before deletion
         int p = 0.1 * needed;
         if (p & 1) p++;
         double tot_time = 0;  // in ms
+        random_shuffle(random_vector.begin(), random_vector.end());
         for (int i = 1; i <= p; i++) {
-            int index = rand() % needed;
+            int index = random_vector[i - 1];
             start = chrono::high_resolution_clock::now();
             bool p = sc.search(strings[index]);
             tot_time += chrono::duration_cast<chrono::nanoseconds>(
@@ -45,8 +51,9 @@ void doSeparateChaining() {
         cout << "Average Search Time: " << tot_time / p << "ms\n";
 
         // deletion
+        random_shuffle(random_vector.begin(), random_vector.end());
         for (int i = 1; i <= p; i++) {
-            int index = rand() % needed;
+            int index = random_vector[i - 1];
             sc.remove(strings[index]);
             del[index] = true;
         }
@@ -101,13 +108,17 @@ void doProbing(Probe p) {
         for (auto& s : strings) lp.insert(s, lp.getSize() + 1);
         debug("insertion done", lf);
 
+        vector<int> random_vector(needed);
+        iota(random_vector.begin(), random_vector.end(), 0);
+
         // search before deletion
         int p = 0.1 * needed;
         if (p & 1) p++;
         double tot_time = 0;  // in micro seconds
         probes = 0;
+        random_shuffle(random_vector.begin(), random_vector.end());
         for (int i = 1; i <= p; i++) {
-            int index = rand() % needed;
+            int index = random_vector[i - 1];
             int pp = 0;
             start = chrono::high_resolution_clock::now();
             bool p = lp.search(strings[index], pp);
@@ -124,8 +135,9 @@ void doProbing(Probe p) {
         cout << "Average Number of Probes: " << (double)probes / p << "\n";
 
         // deletion
+        random_shuffle(random_vector.begin(), random_vector.end());
         for (int i = 1; i <= p; i++) {
-            int index = rand() % needed;
+            int index = random_vector[i - 1];
             lp.remove(strings[index]);
             del[index] = true;
         }
