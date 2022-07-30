@@ -64,11 +64,13 @@ void doSeparateChaining() {
         debug("deletion done", lf);
 
         // search after deletion
+        random_shuffle(deleted.begin(), deleted.end());
+        random_shuffle(not_deleted.begin(), not_deleted.end());
         tot_time = 0;
         for (int i = 1; i <= p; i++) {
             int index;
-            if (i & 1) index = deleted[rand() % ((int)deleted.size())];    // from deleted elements
-            else index = not_deleted[rand() % ((int)not_deleted.size())];  // from non-deleted items
+            if (i & 1) index = deleted[i / 2];    // from deleted elements
+            else index = not_deleted[i / 2 - 1];  // from non-deleted items
             start = chrono::high_resolution_clock::now();
             bool p = sc.search(strings[index]);
             tot_time += chrono::duration_cast<chrono::nanoseconds>(
@@ -150,10 +152,12 @@ void doProbing(Probe p) {
         // search after deletion
         tot_time = 0;
         probes = 0;
+        random_shuffle(deleted.begin(), deleted.end());
+        random_shuffle(not_deleted.begin(), not_deleted.end());
         for (int i = 1; i <= p; i++) {
             int index;
-            if (i & 1) index = deleted[rand() % ((int)deleted.size())];    // from deleted elements
-            else index = not_deleted[rand() % ((int)not_deleted.size())];  // from non-deleted items
+            if (i & 1) index = deleted[i / 2];    // from deleted elements
+            else index = not_deleted[i / 2 - 1];  // from non-deleted items
             int pp = 0;
             start = chrono::high_resolution_clock::now();
             bool p = lp.search(strings[index], pp);
