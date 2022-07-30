@@ -211,7 +211,11 @@ class Probing {
         this->m = m;
         hashTable = new Pair2[m];
         deleted = new bool[m];
-        for (int i = 0; i < m; i++) deleted[i] = false;
+        for (int i = 0; i < m; i++) {
+            deleted[i] = false;
+            hashTable[i].key = "";
+            hashTable[i].value = -1;
+        }
     }
 
     int getSize() { return size; }
@@ -238,7 +242,7 @@ class Probing {
                 hashTable[j].value = val;
                 deleted[j] = false;
                 size++;
-                return;
+                break;
             } else i++;
         }
     }
