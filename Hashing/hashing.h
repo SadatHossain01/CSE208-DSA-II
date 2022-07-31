@@ -65,15 +65,15 @@ unsigned long long hash2(const string& s, const int N = MOD) {
     return hash_value % N;
 }
 
-double test_hash(unsigned long long (*func)(const string&, const int N)) {
+double test_hash(unsigned long long (*func)(const string&, const int), int N) {
     set<string> str;
-    set<unsigned long long> hash_values;
+    set<int> hash_values;
     int dataset_size = 100;
     while (str.size() < dataset_size) {
         string s = generate_random_word(string_len);
         str.insert(s);
     }
-    for (auto& s : str) hash_values.insert(func(s, MOD));
+    for (auto& s : str) hash_values.insert(func(s, MOD) % N);
     double rate = ((int)hash_values.size() * 1.00) / dataset_size;
     debug(rate);
     return rate;

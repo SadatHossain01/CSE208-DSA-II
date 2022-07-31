@@ -184,8 +184,8 @@ int main() {
     // testing both hash functions
     cout << fixed << setprecision(9);
     cerr << fixed << setprecision(9);
-    cout << "Hash Function 1 Performance: " << test_hash(&hash1) << "\n";
-    cout << "Hash Function 2 Performance: " << test_hash(&hash2) << "\n";
+    cout << "Hash Function 1 Performance: " << test_hash(&hash1, 113) << "\n";
+    cout << "Hash Function 2 Performance: " << test_hash(&hash2, 113) << "\n";
 
     cin >> N;
 
