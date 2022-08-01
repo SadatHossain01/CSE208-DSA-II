@@ -1,10 +1,4 @@
-#include <algorithm>
-#include <chrono>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <numeric>
-#include <vector>
+#include <bits/stdc++.h>
 
 #include "hashing.h"
 using namespace std;
@@ -14,22 +8,22 @@ double res[5][7][4];  // resolution method (in order), load factor, values
 
 void doSeparateChaining() {
     // separate chaining
-    cout << "Separate Chaining:\n";
-    cout << "Load Factor: Time Before Deletion       Probes            Time "
-            "After "
-            "Deletion     Probes\n";
+    // cout << "Separate Chaining:\n";
+    // cout << "Load Factor: Time Before Deletion       Probes            Time "
+    "After "
+    "Deletion     Probes\n";
     int idx = 0;
     for (double lf = 0.4; lf <= 0.9; lf += 0.1, idx++) {
         auto start = chrono::high_resolution_clock::now();
         SeparateChaining sc(N);
-        cout << lf << ": ";
+        // cout << lf << ": ";
         int needed = lf * N;
         vector<bool> del(needed, false);
         vector<int> deleted, not_deleted;
 
         // generation
         vector<string> strings = generate_strings(needed, string_len);
-        debug("generation done", lf, needed);
+        // debug("generation done", lf, needed);
 
         // insertion
         for (auto& s : strings) {
@@ -59,7 +53,7 @@ void doSeparateChaining() {
                         1000000.0;
         }
         res[0][idx][0] = tot_time / p;
-        cout << tot_time / p << "ms              N/A               ";
+        // cout << tot_time / p << "ms              N/A               ";
 
         // deletion
         random_shuffle(random_vector.begin(), random_vector.end());
@@ -90,42 +84,42 @@ void doSeparateChaining() {
                         1000000.0;
         }
         res[0][idx][2] = tot_time / p;
-        cout << tot_time / p << "ms           N/A";
-        cout << "\n";
+        // cout << tot_time / p << "ms           N/A";
+        // cout << "\n";
     }
-    cout << "\n\n";
+    // cout << "\n\n";
 }
 
 void doProbing(resolutionMethod p) {
     // probing
     int id2;
     if (p == LinearProbing) {
-        cout << "Linear Probing:\n";
+        // cout << "Linear Probing:\n";
         id2 = 1;
     } else if (p == QuadraticProbing) {
-        cout << "Quadratic Probing\n";
+        // cout << "Quadratic Probing\n";
         id2 = 2;
     } else {
-        cout << "Double Hashing\n";
+        // cout << "Double Hashing\n";
         id2 = 3;
     }
-    cout << "Load Factor: Time Before Deletion       Probes            Time "
-            "After "
-            "Deletion     Probes\n";
+    // cout << "Load Factor: Time Before Deletion       Probes            Time "
+    "After "
+    "Deletion     Probes\n";
     auto start = chrono::high_resolution_clock::now();
     int idx = 0;
     for (double lf = 0.4; lf <= 0.9; lf += 0.1, idx++) {
         Probing lp(N);
         lp.setProbingMethod(p);
         ll probes;
-        cout << lf << ": ";
+        // cout << lf << ": ";
         int needed = lf * N;
         vector<bool> del(needed, false);
         vector<int> deleted, not_deleted;
 
         // generation
         vector<string> strings = generate_strings(needed, string_len);
-        debug("generation done", lf, needed);
+        // debug("generation done", lf, needed);
 
         // insertion
         for (auto& s : strings) {
@@ -160,7 +154,7 @@ void doProbing(resolutionMethod p) {
         }
         res[id2][idx][0] = tot_time / p;
         res[id2][idx][1] = (double)probes / p;
-        cout << tot_time / p << "ms              " << (double)probes / p << "       ";
+        // cout << tot_time / p << "ms              " << (double)probes / p << "       ";
 
         // deletion
         random_shuffle(random_vector.begin(), random_vector.end());
@@ -195,64 +189,47 @@ void doProbing(resolutionMethod p) {
         }
         res[id2][idx][2] = tot_time / p;
         res[id2][idx][3] = (double)probes / p;
-        cout << tot_time / p << "ms           " << (double)probes / p << "        ";
-        cout << "\n";
+        // cout << tot_time / p << "ms           " << (double)probes / p << "        ";
+        // cout << "\n";
     }
-    cout << "\n\n";
+    // cout << "\n\n";
 }
 
-void printLoadFactorBasedStats() {
-    int idx = 0;
-    for (double lf = 0.4; lf <= 0.9; lf += 0.1, idx++) {
-        cout << "Load Factor: " << lf << "\n";
-        cout << "Method:            Time Before Deletion   Probes            "
-                "Time After Deletion  "
-                "  "
-                "Probes\n";
-        cout << "Separate Chaining: ";
-        cout << res[0][idx][0] << "ms          N/A               " << res[0][idx][2]
-             << "ms          N/A\n";
-        cout << "Linear Probing:    ";
-        cout << res[1][idx][0] << "ms          " << res[1][idx][1] << "       " << res[1][idx][2]
-             << "ms          " << res[1][idx][3] << "\n";
-        cout << "Quadratic Probing: ";
-        cout << res[2][idx][0] << "ms          " << res[2][idx][1] << "       " << res[2][idx][2]
-             << "ms          " << res[2][idx][3] << "\n";
-        cout << "Double Hashing:    ";
-        cout << res[3][idx][0] << "ms          " << res[3][idx][1] << "       " << res[3][idx][2]
-             << "ms          " << res[3][idx][3] << "\n";
-        cout << "\n\n";
-        cerr << lf << " done\n";
+const int mx = 1e7 + 5;
+bitset<mx> isPrime;
+vector<int> Primes;
+// space optimized one is faster
+void sieve(int n) {
+    isPrime.set();
+    isPrime[0] = isPrime[1] = false;
+    for (int i = 4; i <= n; i += 2) isPrime[i] = false;
+    for (int i = 3; i * i <= n; i += 2) {
+        if (!isPrime[i]) continue;
+        for (int j = i * i; j <= n; j += i) isPrime[j] = false;
+    }
+    Primes.push_back(2);
+    for (int i = 3; i <= n; i += 2) {
+        if (isPrime[i]) Primes.push_back(i);
     }
 }
 
 int main() {
     // time(0) returns the current time
+    sieve(1000005);
     srand(time(0));
-    freopen("out.txt", "w", stdout);
 
-    // testing both hash functions
-    cerr << "Input N for hash function testing: ";
-    cin >> N;
-    cout << fixed << setprecision(9);
-    cerr << fixed << setprecision(9);
-    cerr << "Hash Function 1 Performance: " << test_hash(&hash1, N) << "\n";
-    cerr << "Hash Function 2 Performance: " << test_hash(&hash2, N) << "\n";
-
-    cerr << "Input N for hash table size: ";
-    cin >> N;
-    cout << "N = " << N << "\n";
-
-    doSeparateChaining();
-    cerr << "Separate Chaining Done\n";
-    doProbing(LinearProbing);
-    cerr << "Linear Probing Done\n";
-    doProbing(QuadraticProbing);
-    cerr << "Quadratic Probing Done\n";
-    doProbing(DoubleHashing);
-    cerr << "Double Hashing Done\n";
-
-    printLoadFactorBasedStats();
+    for (int i = 0; i < Primes.size(); i++) {
+        N = Primes[i];
+        cerr << N << "\n";
+        doSeparateChaining();
+        // cerr << "Separate Chaining Done\n";
+        doProbing(LinearProbing);
+        // cerr << "Linear Probing Done\n";
+        doProbing(QuadraticProbing);
+        // cerr << "Quadratic Probing Done\n";
+        doProbing(DoubleHashing);
+        // cerr << "Double Hashing Done\n";
+    }
 
     return 0;
 }

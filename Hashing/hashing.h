@@ -26,8 +26,7 @@ vector<string> generate_strings(int n, int len) {
     int idx = 0;
     while (idx < n) {
         string s = generate_random_word(len);
-        if (str.count(s))
-            continue;
+        if (str.count(s)) continue;
         else {
             str.insert(s);
             strings[idx++] = s;
@@ -40,19 +39,19 @@ vector<string> generate_strings(int n, int len) {
 unsigned long long hash1(const string& s, const int N = MOD) {
     unsigned long long hash_value = 0;
     const int n = s.size();
-    const int p = 137;
+    const int p = 31;
     unsigned long long cur_power = 1;
     for (int i = 0; i < n; i++) {
-        unsigned long long val = (s[i] - 'a' + 1) * cur_power;
-        hash_value += val;
-        cur_power = cur_power * p;
+        unsigned long long val = (s[i] * cur_power) % MOD;
+        hash_value = (hash_value + val) % MOD;
+        cur_power = (cur_power * p) % MOD;
     }
     // debug(s, hash_value);
     return hash_value;
 }
 
 // Jenkins Hash Function
-unsigned long long hash2(const string& s, const int N = MOD) {
+unsigned long long hash2(const string& s, const int N) {
     // https://en.wikipedia.org/wiki/Jenkins_hash_function
     unsigned long long hash_value = 0;
     const int n = s.size();
@@ -64,7 +63,7 @@ unsigned long long hash2(const string& s, const int N = MOD) {
     hash_value += (hash_value << 3);
     hash_value ^= (hash_value >> 11);
     hash_value += (hash_value << 15);
-    return hash_value % N;
+    return hash_value % (N - 1) + 1;
 }
 
 double test_hash(unsigned long long (*func)(const string&, const int), int N) {
@@ -87,9 +86,7 @@ struct Pair {
     int value;
     Pair* prev;
     Pair* next;
-    Pair(const string& key, int value) : key(key), value(value) {
-        prev = next = nullptr;
-    }
+    Pair(const string& key, int value) : key(key), value(value) { prev = next = nullptr; }
 };
 
 class SeparateChaining {
@@ -106,10 +103,8 @@ class SeparateChaining {
         }
         Pair* cur = hashTable[h];
         while (cur != nullptr) {
-            if (cur->key == s)
-                return cur;
-            else
-                cur = cur->next;
+            if (cur->key == s) return cur;
+            else cur = cur->next;
         }
         return nullptr;
     }
@@ -125,18 +120,14 @@ class SeparateChaining {
 
     bool search(const string& s) {
         Pair* ret = search_help(s);
-        if (ret == nullptr)
-            return false;
-        else
-            return true;
+        if (ret == nullptr) return false;
+        else return true;
     }
 
     int getValue(const string& s) {
         Pair* ret = search_help(s);
-        if (ret == nullptr)
-            return -1;  // not found
-        else
-            return ret->value;
+        if (ret == nullptr) return -1;  // not found
+        else return ret->value;
     }
 
     void insert(const string& s, int val) {
@@ -180,8 +171,7 @@ class SeparateChaining {
             Pair* after = ret->next;
             Pair* before = ret->prev;
             if (after != nullptr) after->prev = before;
-            before->next =
-                after;  // as ret is not head, so before is surely not null
+            before->next = after;  // as ret is not head, so before is surely not null
         }
         // debug("deletion done", s);
         delete ret;
@@ -196,22 +186,19 @@ struct Pair2 {
     Pair2(const string& key, int value) : key(key), value(value) {}
 };
 
-enum Probe { LinearProbing, QuadraticProbing, DoubleHashing };
+enum resolutionMethod { LinearProbing, QuadraticProbing, DoubleHashing };
 
 class Probing {
    private:
     int m, size;
     Pair2* hashTable;
-    Probe p;
+    resolutionMethod p;
     bool* deleted;
 
     int hash(const string& s, int i) {
-        if (p == LinearProbing)
-            return (hash1(s) + i) % m;
-        else if (p == QuadraticProbing)
-            return (hash1(s) + c1 * i + c2 * i * i) % m;
-        else
-            return (hash1(s) + i * hash2(s)) % m;
+        if (p == LinearProbing) return (hash1(s) + i) % m;
+        else if (p == QuadraticProbing) return (hash1(s) + c1 * i + c2 * i * 1LL * i) % m;
+        else return (hash1(s) + hash2(s, m) * i) % m;
     }
 
     int search_help(const string& s, int& probe) {
@@ -219,18 +206,15 @@ class Probing {
         probe = 0;
         while (probe < m) {
             int idx = hash(s, probe);
-            if (hashTable[idx].key == s)
-                return idx;
-            else if (!deleted[idx] &&
-                     (hashTable[idx].value == -1 || hashTable[idx].key != s))
-                return -1;
+            if (hashTable[idx].key == s) return idx;
+            else if (!deleted[idx] && hashTable[idx].value == -1) return -1;
             probe++;
         }
         return -1;
     }
 
    public:
-    void setProbingMethod(Probe p) { this->p = p; }
+    void setProbingMethod(resolutionMethod p) { this->p = p; }
 
     Probing(int m) {
         this->m = m;
@@ -250,19 +234,15 @@ class Probing {
         int ret = search_help(s, pr);
         pr++;  // started from 0 there
         p = pr;
-        if (ret == -1)
-            return false;
-        else
-            return true;
+        if (ret == -1) return false;
+        else return true;
     }
 
     int getValue(const string& s) {
         int pr = 0;
         int ret = search_help(s, pr);
-        if (ret == -1)
-            return -1;
-        else
-            return hashTable[ret].value;
+        if (ret == -1) return -1;
+        else return hashTable[ret].value;
     }
 
     void insert(const string& s, int val) {
@@ -272,23 +252,24 @@ class Probing {
                           // so we have to update the existing value
             debug("already present before insertion");
             hashTable[ret].value = val;
+            deleted[ret] = true;
             return;
         }
 
         int i = 0;
+        int j;
         while (i < m) {
-            int j = hash(s, i);
+            j = hash(s, i);
             if (hashTable[j].value == -1) {
                 hashTable[j].key = s;
                 hashTable[j].value = val;
                 deleted[j] = false;
                 size++;
                 break;
-            } else
-                i++;
+            } else i++;
         }
         if (i == m) {
-            debug("can't insert", to_string(p));
+            debug("can't insert", to_string(p), s, j);
         }
     }
 
