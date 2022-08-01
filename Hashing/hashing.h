@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "debug.h"
 const int string_len = 7;
@@ -25,7 +26,8 @@ vector<string> generate_strings(int n, int len) {
     int idx = 0;
     while (idx < n) {
         string s = generate_random_word(len);
-        if (str.count(s)) continue;
+        if (str.count(s))
+            continue;
         else {
             str.insert(s);
             strings[idx++] = s;
@@ -85,7 +87,9 @@ struct Pair {
     int value;
     Pair* prev;
     Pair* next;
-    Pair(const string& key, int value) : key(key), value(value) { prev = next = nullptr; }
+    Pair(const string& key, int value) : key(key), value(value) {
+        prev = next = nullptr;
+    }
 };
 
 class SeparateChaining {
@@ -102,8 +106,10 @@ class SeparateChaining {
         }
         Pair* cur = hashTable[h];
         while (cur != nullptr) {
-            if (cur->key == s) return cur;
-            else cur = cur->next;
+            if (cur->key == s)
+                return cur;
+            else
+                cur = cur->next;
         }
         return nullptr;
     }
@@ -119,8 +125,18 @@ class SeparateChaining {
 
     bool search(const string& s) {
         Pair* ret = search_help(s);
-        if (ret == nullptr) return false;
-        else return true;
+        if (ret == nullptr)
+            return false;
+        else
+            return true;
+    }
+
+    int getValue(const string& s) {
+        Pair* ret = search_help(s);
+        if (ret == nullptr)
+            return -1;  // not found
+        else
+            return ret->value;
     }
 
     void insert(const string& s, int val) {
@@ -128,7 +144,9 @@ class SeparateChaining {
         Pair* ret = search_help(s);
         if (ret != nullptr) {
             // debug("already present before insertion");
-            return;  // already present
+            // already present, so update the existing value
+            ret->value = val;
+            return;
         }
 
         int h = hash1(s) % m;
@@ -162,7 +180,8 @@ class SeparateChaining {
             Pair* after = ret->next;
             Pair* before = ret->prev;
             if (after != nullptr) after->prev = before;
-            before->next = after;  // as ret is not head, so before is surely not null
+            before->next =
+                after;  // as ret is not head, so before is surely not null
         }
         // debug("deletion done", s);
         delete ret;
@@ -187,9 +206,12 @@ class Probing {
     bool* deleted;
 
     int hash(const string& s, int i) {
-        if (p == LinearProbing) return (hash1(s) + i) % m;
-        else if (p == QuadraticProbing) return (hash1(s) + c1 * i + c2 * i * i) % m;
-        else return (hash1(s) + i * hash2(s)) % m;
+        if (p == LinearProbing)
+            return (hash1(s) + i) % m;
+        else if (p == QuadraticProbing)
+            return (hash1(s) + c1 * i + c2 * i * i) % m;
+        else
+            return (hash1(s) + i * hash2(s)) % m;
     }
 
     int search_help(const string& s, int& probe) {
@@ -197,8 +219,11 @@ class Probing {
         probe = 0;
         while (probe < m) {
             int idx = hash(s, probe);
-            if (hashTable[idx].key == s) return idx;
-            else if (!deleted[idx] && hashTable[idx].value == -1) return -1;
+            if (hashTable[idx].key == s)
+                return idx;
+            else if (!deleted[idx] &&
+                     (hashTable[idx].value == -1 || hashTable[idx].key != s))
+                return -1;
             probe++;
         }
         return -1;
@@ -225,14 +250,29 @@ class Probing {
         int ret = search_help(s, pr);
         pr++;  // started from 0 there
         p = pr;
-        if (ret == -1) return false;
-        else return true;
+        if (ret == -1)
+            return false;
+        else
+            return true;
+    }
+
+    int getValue(const string& s) {
+        int pr = 0;
+        int ret = search_help(s, pr);
+        if (ret == -1)
+            return -1;
+        else
+            return hashTable[ret].value;
     }
 
     void insert(const string& s, int val) {
         int temp = 0;
-        if (search(s, temp))  // already present
+        int ret = search_help(s, temp);
+        if (ret != -1) {  // already present
+            // so we have to update the existing value
+            hashTable[ret].value = val;
             return;
+        }
 
         int i = 0;
         while (i < m) {
@@ -243,7 +283,8 @@ class Probing {
                 deleted[j] = false;
                 size++;
                 break;
-            } else i++;
+            } else
+                i++;
         }
     }
 

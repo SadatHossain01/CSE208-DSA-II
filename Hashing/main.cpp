@@ -15,7 +15,8 @@ double res[5][7][4];  // resolution method (in order), load factor, values
 void doSeparateChaining() {
     // separate chaining
     cout << "Separate Chaining:\n";
-    cout << "Load Factor: Time Before Deletion       Probes            Time After "
+    cout << "Load Factor: Time Before Deletion       Probes            Time "
+            "After "
             "Deletion     Probes\n";
     int idx = 0;
     for (double lf = 0.4; lf <= 0.9; lf += 0.1, idx++) {
@@ -31,7 +32,14 @@ void doSeparateChaining() {
         debug("generation done", lf, needed);
 
         // insertion
-        for (auto& s : strings) sc.insert(s, sc.getSize() + 1);
+        for (auto& s : strings) {
+            bool ret = sc.search(s);
+            if (!ret)
+                sc.insert(s, sc.getSize() + 1);
+            else {
+                debug("Already present before insertion");
+            }
+        }
         debug("insertion done", lf);
 
         vector<int> random_vector(needed);
@@ -65,8 +73,10 @@ void doSeparateChaining() {
             del[index] = true;
         }
         for (int i = 0; i < needed; i++) {
-            if (del[i]) deleted.push_back(i);
-            else not_deleted.push_back(i);
+            if (del[i])
+                deleted.push_back(i);
+            else
+                not_deleted.push_back(i);
         }
         debug("deletion done", lf);
 
@@ -76,8 +86,10 @@ void doSeparateChaining() {
         tot_time = 0;
         for (int i = 1; i <= p; i++) {
             int index;
-            if (i & 1) index = deleted[i / 2];    // from deleted elements
-            else index = not_deleted[i / 2 - 1];  // from non-deleted items
+            if (i & 1)
+                index = deleted[i / 2];  // from deleted elements
+            else
+                index = not_deleted[i / 2 - 1];  // from non-deleted items
             start = chrono::high_resolution_clock::now();
             bool p = sc.search(strings[index]);
             tot_time += chrono::duration_cast<chrono::nanoseconds>(
@@ -108,7 +120,8 @@ void doProbing(Probe p) {
         cout << "Double Hashing\n";
         id2 = 3;
     }
-    cout << "Load Factor: Time Before Deletion       Probes            Time After "
+    cout << "Load Factor: Time Before Deletion       Probes            Time "
+            "After "
             "Deletion     Probes\n";
     auto start = chrono::high_resolution_clock::now();
     int idx = 0;
@@ -126,7 +139,15 @@ void doProbing(Probe p) {
         debug("generation done", lf, needed);
 
         // insertion
-        for (auto& s : strings) lp.insert(s, lp.getSize() + 1);
+        for (auto& s : strings) {
+            int tmp = 0;
+            bool ret = lp.search(s, tmp);
+            if (!ret)
+                lp.insert(s, lp.getSize() + 1);
+            else {
+                debug("Already present before insertion");
+            }
+        }
         debug("insertion done", lf);
 
         vector<int> random_vector(needed);
@@ -156,7 +177,8 @@ void doProbing(Probe p) {
         // cout << "Average Number of Probes: " << (double)probes / p << "\n";
         res[id2][idx][0] = tot_time / p;
         res[id2][idx][1] = (double)probes / p;
-        cout << tot_time / p << "ms              " << (double)probes / p << "       ";
+        cout << tot_time / p << "ms              " << (double)probes / p
+             << "       ";
 
         // deletion
         random_shuffle(random_vector.begin(), random_vector.end());
@@ -166,8 +188,10 @@ void doProbing(Probe p) {
             del[index] = true;
         }
         for (int i = 0; i < needed; i++) {
-            if (del[i]) deleted.push_back(i);
-            else not_deleted.push_back(i);
+            if (del[i])
+                deleted.push_back(i);
+            else
+                not_deleted.push_back(i);
         }
         debug("deletion done", lf);
 
@@ -178,8 +202,10 @@ void doProbing(Probe p) {
         random_shuffle(not_deleted.begin(), not_deleted.end());
         for (int i = 1; i <= p; i++) {
             int index;
-            if (i & 1) index = deleted[i / 2];    // from deleted elements
-            else index = not_deleted[i / 2 - 1];  // from non-deleted items
+            if (i & 1)
+                index = deleted[i / 2];  // from deleted elements
+            else
+                index = not_deleted[i / 2 - 1];  // from non-deleted items
             int pp = 0;
             start = chrono::high_resolution_clock::now();
             bool p = lp.search(strings[index], pp);
@@ -196,7 +222,8 @@ void doProbing(Probe p) {
         // cout << "Average Number of Probes: " << (double)probes / p << "\n";
         res[id2][idx][2] = tot_time / p;
         res[id2][idx][3] = (double)probes / p;
-        cout << tot_time / p << "ms           " << (double)probes / p << "        ";
+        cout << tot_time / p << "ms           " << (double)probes / p
+             << "        ";
         cout << "\n";
     }
     cout << "\n\n";
@@ -206,21 +233,22 @@ void printLoadFactorBasedStats() {
     int idx = 0;
     for (double lf = 0.4; lf <= 0.9; lf += 0.1, idx++) {
         cout << "Load Factor: " << lf << "\n";
-        cout << "Method:            Time Before Deletion   Probes            Time After Deletion  "
+        cout << "Method:            Time Before Deletion   Probes            "
+                "Time After Deletion  "
                 "  "
                 "Probes\n";
         cout << "Separate Chaining: ";
-        cout << res[0][idx][0] << "ms          N/A               " << res[0][idx][2]
-             << "ms          N/A\n";
+        cout << res[0][idx][0] << "ms          N/A               "
+             << res[0][idx][2] << "ms          N/A\n";
         cout << "Linear Probing:    ";
-        cout << res[1][idx][0] << "ms          " << res[1][idx][1] << "       " << res[1][idx][2]
-             << "ms          " << res[1][idx][3] << "\n";
+        cout << res[1][idx][0] << "ms          " << res[1][idx][1] << "       "
+             << res[1][idx][2] << "ms          " << res[1][idx][3] << "\n";
         cout << "Quadratic Probing: ";
-        cout << res[2][idx][0] << "ms          " << res[2][idx][1] << "       " << res[2][idx][2]
-             << "ms          " << res[2][idx][3] << "\n";
+        cout << res[2][idx][0] << "ms          " << res[2][idx][1] << "       "
+             << res[2][idx][2] << "ms          " << res[2][idx][3] << "\n";
         cout << "Double Hashing:    ";
-        cout << res[3][idx][0] << "ms          " << res[3][idx][1] << "       " << res[3][idx][2]
-             << "ms          " << res[3][idx][3] << "\n";
+        cout << res[3][idx][0] << "ms          " << res[3][idx][1] << "       "
+             << res[3][idx][2] << "ms          " << res[3][idx][3] << "\n";
         cout << "\n\n";
     }
 }
