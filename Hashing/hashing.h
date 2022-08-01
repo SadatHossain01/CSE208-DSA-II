@@ -77,7 +77,7 @@ double test_hash(unsigned long long (*func)(const string&, const int), int N) {
     }
     for (auto& s : str) hash_values.insert(func(s, MOD) % N);
     double rate = ((int)hash_values.size() * 1.00) / dataset_size;
-    debug(rate);
+    // debug(rate);
     return rate;
 }
 
@@ -143,7 +143,7 @@ class SeparateChaining {
         // first check if this string is already in the hash table
         Pair* ret = search_help(s);
         if (ret != nullptr) {
-            // debug("already present before insertion");
+            debug("already present before insertion");
             // already present, so update the existing value
             ret->value = val;
             return;
@@ -168,7 +168,7 @@ class SeparateChaining {
         // debug("deletion started", s);
         Pair* ret = search_help(s);
         if (ret == nullptr) {
-            // debug("not present to delete for separate chaining");
+            debug("not present to delete for separate chaining");
             return;  // not present
         }
 
@@ -269,7 +269,8 @@ class Probing {
         int temp = 0;
         int ret = search_help(s, temp);
         if (ret != -1) {  // already present
-            // so we have to update the existing value
+                          // so we have to update the existing value
+            debug("already present before insertion");
             hashTable[ret].value = val;
             return;
         }
@@ -285,6 +286,9 @@ class Probing {
                 break;
             } else
                 i++;
+        }
+        if (i == m) {
+            debug("can't insert", to_string(p));
         }
     }
 

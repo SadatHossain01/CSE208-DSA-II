@@ -40,7 +40,7 @@ void doSeparateChaining() {
                 debug("Already present before insertion");
             }
         }
-        debug("insertion done", lf);
+        // debug("insertion done", lf);
 
         vector<int> random_vector(needed);
         iota(random_vector.begin(), random_vector.end(), 0);
@@ -59,7 +59,7 @@ void doSeparateChaining() {
                             .count() /
                         1000000.0;
         }
-        debug("average search time before deletion", tot_time, tot_time / p);
+        // debug("average search time before deletion", tot_time, tot_time / p);
         // cout << "Before Deletion:\n";
         res[0][idx][0] = tot_time / p;
         // cout << "Average Search Time: " << tot_time / p << "ms\n";
@@ -78,7 +78,7 @@ void doSeparateChaining() {
             else
                 not_deleted.push_back(i);
         }
-        debug("deletion done", lf);
+        // debug("deletion done", lf);
 
         // search after deletion
         random_shuffle(deleted.begin(), deleted.end());
@@ -97,7 +97,7 @@ void doSeparateChaining() {
                             .count() /
                         1000000.0;
         }
-        debug("average search time after deletion", tot_time, tot_time / p);
+        // debug("average search time after deletion", tot_time, tot_time / p);
         // cout << "After Deletion:\n";
         res[0][idx][2] = tot_time / p;
         // cout << "Average Search Time: " << tot_time / p << "ms\n";
@@ -148,7 +148,7 @@ void doProbing(Probe p) {
                 debug("Already present before insertion");
             }
         }
-        debug("insertion done", lf);
+        // debug("insertion done", lf);
 
         vector<int> random_vector(needed);
         iota(random_vector.begin(), random_vector.end(), 0);
@@ -170,8 +170,8 @@ void doProbing(Probe p) {
                         1000000.0;
             probes += pp;
         }
-        debug("average search time before deletion", tot_time, tot_time / p);
-        debug("average number of probes", probes, (double)probes / p);
+        // debug("average search time before deletion", tot_time, tot_time / p);
+        // debug("average number of probes", probes, (double)probes / p);
         // cout << "Before Deletion:\n";
         // cout << "Average Search Time: " << tot_time / p << "ms ";
         // cout << "Average Number of Probes: " << (double)probes / p << "\n";
@@ -193,7 +193,7 @@ void doProbing(Probe p) {
             else
                 not_deleted.push_back(i);
         }
-        debug("deletion done", lf);
+        // debug("deletion done", lf);
 
         // search after deletion
         tot_time = 0;
@@ -215,8 +215,8 @@ void doProbing(Probe p) {
                         1000000.0;
             probes += pp;
         }
-        debug("average search time after deletion", tot_time, tot_time / p);
-        debug("average number of probes", probes, (double)probes / p);
+        // debug("average search time after deletion", tot_time, tot_time / p);
+        // debug("average number of probes", probes, (double)probes / p);
         // cout << "After Deletion:\n";
         // cout << "Average Search Time: " << tot_time / p << "ms ";
         // cout << "Average Number of Probes: " << (double)probes / p << "\n";
