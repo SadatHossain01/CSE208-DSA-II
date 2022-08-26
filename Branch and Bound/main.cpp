@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -95,7 +96,7 @@ void print(const vector<vector<char>>& mat, bool must = false) {
 }
 
 int find_bound(const vector<vector<char>>& v, int fr, int fc) {
-    print(v);
+    // print(v);
     // cout << "Fixed Row, Column: " << fr << " " << fc << "\n\n\n";
     return max(fixed_bound(v, fr, fc), unfixed_bound(v, fr, fc));
 }
@@ -107,7 +108,7 @@ vector<vector<char>> moveRow(const vector<vector<char>>& v, int r, int fr, int f
     vector<vector<char>> ret = v;
     // cout << "Fixed Row = " << fr << " Fixed Column = " << fc << "\n";
     // cout << "Before fixing the " << r << "-th row\n";
-    print(v);
+    // print(v);
     ret[fr] = v[r];
     int j = fr + 1;
     for (int i = fr; i < v.size(); i++) {
@@ -115,7 +116,7 @@ vector<vector<char>> moveRow(const vector<vector<char>>& v, int r, int fr, int f
         ret[j++] = v[i];
     }
     // cout << "After fixing the " << r << "-th row\n";
-    print(ret);
+    // print(ret);
     return ret;
 }
 
@@ -126,7 +127,7 @@ vector<vector<char>> moveColumn(const vector<vector<char>>& v, int c, int fr, in
     vector<vector<char>> ret = v;
     // cout << "Fixed Row = " << fr << " Fixed Column = " << fc << "\n";
     // cout << "Before fixing the " << c << "-th col\n";
-    print(v);
+    // print(v);
     // copying the c-th column
     for (int i = 0; i < v.size(); i++) {
         ret[i][fc] = v[i][c];
@@ -141,7 +142,7 @@ vector<vector<char>> moveColumn(const vector<vector<char>>& v, int c, int fr, in
         j++;
     }
     // cout << "After fixing the " << c << "-th col\n";
-    print(ret);
+    // print(ret);
     return ret;
 }
 
@@ -169,26 +170,37 @@ struct Matrix {
 };
 
 int main() {
+    ifstream in;
+    ofstream out;
+    out.open("out.txt");
+    in.open("in.txt");
     int n;
-    cin >> n;
+    in >> n;
     vector<vector<char>> vec(n, vector<char>(n));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            cin >> vec[i][j];
+            in >> vec[i][j];
         }
     }
+    in.close();
     Matrix m(vec, 0, 1, 0, 0);
     // cout << m.bound << "\n";
 
     priority_queue<Matrix> pq;
     pq.push(m);
-
+    int cont = 0;
     while (true) {
+        cont++;
         Matrix now = pq.top();
         pq.pop();
         if (now.fr == n - 1 && now.fc == n - 1) {
-            cout << now.bound << "\n";
-            print(now.mat, true);
+            out << now.bound << "\n";
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    out << now.mat[i][j] << " ";
+                }
+                out << "\n";
+            }
             break;
         }
         if (now.fc == now.fr) {
@@ -209,4 +221,5 @@ int main() {
             }
         }
     }
+    cout << "Total Traversal: " << cont << "\n";
 }
