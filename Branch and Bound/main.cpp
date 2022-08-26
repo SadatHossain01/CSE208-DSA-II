@@ -221,5 +221,6 @@ int main() {
             }
         }
     }
+    out.close();
     cout << "Total Traversal: " << cont << "\n";
 }
