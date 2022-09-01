@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <queue>
@@ -185,7 +186,7 @@ int main() {
     in.close();
     Matrix m(vec, 0, 1, 0, 0);
     // cout << m.bound << "\n";
-
+    // auto start = chrono::high_resolution_clock::now();
     priority_queue<Matrix> pq;
     pq.push(m);
     int cont = 0;
@@ -221,6 +222,10 @@ int main() {
             }
         }
     }
+    auto end = chrono::high_resolution_clock::now();
+    // cout << "Time: " << chrono::duration_cast<chrono::nanoseconds>(end - start).count() /
+    // 1000000.0
+    //      << " ms\n";
     out.close();
-    cout << "Total Traversal: " << cont << "\n";
+    // cout << "Total Traversal: " << cont << "\n";
 }
